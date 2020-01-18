@@ -22,6 +22,30 @@ class Flag(IntEnum):
     OF = 2 # Overflow flag
     SF = 3 # Sign flag
 
+class Word:
+    @classmethod
+    def from_int(cls, integer):
+        mask = 0b1111111
+        return cls(
+            Byte(integer >> 0 & mask),
+            Byte(integer >> 7 & mask),
+            Byte(integer >> 14 & mask),
+            Byte(integer >> 21 & mask),
+        )
+
+    # little-endian, byte1 is smallest
+    def __init__(self, byte1, byte2, byte3, byte4):
+        self.byte1 = byte1
+        self.byte2 = byte2
+        self.byte3 = byte3
+        self.byte4 = byte4
+
+    def low_byte(self):
+        return self.byte1
+
+    def __repr__(self):
+        return "[word=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) + "]"
+
 class Byte:
     def __init__(self, int_value):
         assert(int_value >> 7) == 0
