@@ -1,0 +1,4 @@
+ADD rc, 0x1
+ADD rd, 0x8
+ADD rd, rc
+STB rd, 0x6e
