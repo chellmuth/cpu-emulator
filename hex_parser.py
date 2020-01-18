@@ -1,5 +1,4 @@
-def _pad(bits_str, length):
-    return ("0" * length + bits_str)[-length:]
+import util
 
 def _split_bytes(hex_str):
     if len(hex_str) % 2 == 1:
@@ -11,7 +10,7 @@ def _split_bytes(hex_str):
     ]
 
 def _int_to_padded_bin_str(int_value):
-    return _pad(bin(int_value)[2:], 7)
+    return util.pad(bin(int_value)[2:], 7)
 
 def parse_hex_str(hex_str):
     assert(hex_str.startswith("0x"))

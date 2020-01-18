@@ -1,16 +1,14 @@
 import sys
 
+import util
 from core import Register
 from hex_parser import parse_hex_str
-
-def pad(bits_str, length):
-    return ("0" * length + bits_str)[-length:]
 
 def is_register(arg):
     return arg.startswith("r")
 
 def get_register_id(register_name):
-    return pad(bin(Register[register_name])[2:], 4)
+    return util.pad(bin(Register[register_name])[2:], 4)
 
 def get_const_binary(hex_str):
     return parse_hex_str(hex_str)
@@ -40,6 +38,19 @@ def assemble(filename):
             )
 
     print(assembled_lines)
+
+    with open("out.o", "wb") as f:
+        for line in assembled_lines:
+            line = util.fill_to_real_byte(line)
+            byte_count = len(line) // 8
+
+            int_values = []
+            for i in range(byte_count):
+                byte_str = line[i*8 : i*8 + 8]
+                int_value = int(byte_str, 2)
+                int_values.append(int_value)
+
+            f.write(bytearray(int_values))
 
 if __name__ == "__main__":
     assemble(sys.argv[1])
