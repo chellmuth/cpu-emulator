@@ -9,23 +9,36 @@ class Machine:
     def __repr__(self):
         return str(self.registers)
 
-    def add_from_register(self, dest, src):
+    def add_register(self, dest, src):
         result, flags = add(self.registers[src], self.registers[dest])
 
         self.registers[dest] = result
         self.flags = flags
 
-    def add_from_constant(self, dest, constant):
+    def add_constant(self, dest, constant):
         result, flags = add(self.registers[dest], constant)
 
         self.registers[dest] = result
         self.flags = flags
 
+class Opcode:
+    AddRegister = Byte(0b0100000)
+    AddConstant = Byte(0b0110000)
+
 if __name__ == "__main__":
-    m = Machine()
+    machine = Machine()
 
-    m.add_from_constant(Register.rc, Byte(0b1))
-    m.add_from_constant(Register.rd, Byte(0b1000))
-    m.add_from_register(Register.rd, Register.rc)
+    instructions = [
+        (Byte(0b0110000), Register.rc, Byte(0b1)),
+        (Byte(0b0110000), Register.rd, Byte(0b1000)),
+        (Byte(0b0100000), Register.rd, Register.rc),
+    ]
 
-    print(m)
+    for instruction in instructions:
+        opcode, arg1, arg2 = instruction
+        if opcode == Opcode.AddRegister:
+            machine.add_register(arg1, arg2)
+        elif opcode == Opcode.AddConstant:
+            machine.add_constant(arg1, arg2)
+
+    print(machine)
