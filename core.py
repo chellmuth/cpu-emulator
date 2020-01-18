@@ -56,7 +56,7 @@ class Word:
 
 class Byte:
     def __init__(self, int_value):
-        assert(int_value >> 7) == 0
+        assert((int_value >> 7) == 0)
         self.int_value = int_value
 
     def __eq__(self, other):

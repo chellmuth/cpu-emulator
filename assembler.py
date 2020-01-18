@@ -1,6 +1,7 @@
 import sys
 
 from core import Register
+from hex_parser import parse_hex_str
 
 def pad(bits_str, length):
     return ("0" * length + bits_str)[-length:]
@@ -11,8 +12,8 @@ def is_register(arg):
 def get_register_id(register_name):
     return pad(bin(Register[register_name])[2:], 4)
 
-def get_const_binary(int_value):
-    return pad("111", 28)
+def get_const_binary(hex_str):
+    return parse_hex_str(hex_str)
 
 def assemble(filename):
     assembled_lines = []
