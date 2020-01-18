@@ -43,6 +43,14 @@ class Word:
     def low_byte(self):
         return self.byte1
 
+    def __or__(self, other):
+        return Word(
+            self.byte1 | other.byte1,
+            self.byte2 | other.byte2,
+            self.byte3 | other.byte3,
+            self.byte4 | other.byte4,
+        )
+
     def __repr__(self):
         return "[word=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) + "]"
 
@@ -53,6 +61,9 @@ class Byte:
 
     def __eq__(self, other):
         return self.int_value == other.int_value
+
+    def __or__(self, other):
+        return Byte(self.int_value | other.int_value)
 
     def __repr__(self):
         return bin(self.int_value)[2:]
