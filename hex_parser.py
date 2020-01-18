@@ -6,7 +6,7 @@ def _split_bytes(hex_str):
         hex_str = "0" + hex_str
 
     return [
-        hex_str[i : i + 2]
+        hex_str[i * 2 : i * 2 + 2]
         for i in range(len(hex_str) // 2)
     ]
 
@@ -29,5 +29,5 @@ def parse_hex_str(hex_str):
 
     return "".join(
         _int_to_padded_bin_str(i)
-        for i in int_values
+        for i in reversed(int_values)
     )

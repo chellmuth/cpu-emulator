@@ -32,3 +32,6 @@ def test_basic():
 
     with pytest.raises(ValueError):
         parse_hex_str("0x80")
+
+def test_parse_bytes__little_endian():
+    assert parse_hex_str("0x0103070f") == "0001111000011100000110000001"
