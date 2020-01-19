@@ -27,7 +27,6 @@ def _disassemble_instruction(stream):
         skip, = stream.read_int(6)
 
         assert(skip == 0)
-
     elif op_code & 0b1110000 == 0b0110000:
         dest, = stream.read_int(4)
         dest_out = Register(dest).name
@@ -39,6 +38,8 @@ def _disassemble_instruction(stream):
         skip, = stream.read_int(3)
 
         assert(skip == 0)
+    else:
+        raise ValueError
 
     print(f"{op_name} {dest_out}, {source_out}")
 

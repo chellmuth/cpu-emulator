@@ -59,7 +59,8 @@ class BitStream:
         print(self.bin_str)
 
     def is_empty(self):
-        return len(self.bin_str) == 0
+        # todo: pad the input to always have a full byte at the end
+        return len(self.bin_str) < 7
 
     def read_int(self, bit_count):
         assert(bit_count <= 7)
