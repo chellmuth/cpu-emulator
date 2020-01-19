@@ -16,6 +16,7 @@ def get_const_binary(hex_str, length=28):
 instructions = {
     "ADD": (1, 0),
     "SUB": (1, 1),
+    "MUL": (1, 2),
 }
 
 def assemble(filename):

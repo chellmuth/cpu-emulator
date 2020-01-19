@@ -26,6 +26,12 @@ op_names = {
 
 def _disassemble_instruction(stream):
     op_code, = stream.read_int(7)
+
+    if stream.is_empty():
+        # Our file was padded with 7 bits to complete the byte
+        # Made it look like we had an instruction when we don't
+        return
+
     op_name = op_names[op_code & 0b1111]
 
     if op_code & 0b1110000 == 0b0100000:
