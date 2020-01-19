@@ -9,13 +9,24 @@ def disassemble(filename):
     while not stream.is_empty():
         _disassemble_instruction(stream)
 
+op_names = {
+    0: "ADD",
+    1: "SUB",
+    2: "MUL",
+    3: "DIV",
+    4: "CMP",
+    5: "TST",
+    6: "AND",
+    7: "ORR",
+    8: "XOR",
+    9: "STR",
+    10: "STB",
+    11: "LOD",
+}
+
 def _disassemble_instruction(stream):
     op_code, = stream.read_int(7)
-
-    if op_code & 0b1111 == 0b0000:
-        op_name = "add"
-    elif op_code & 0b1111 == 0b0001:
-        op_name = "sub"
+    op_name = op_names[op_code & 0b1111]
 
     if op_code & 0b1110000 == 0b0100000:
         source, = stream.read_int(4)
