@@ -22,8 +22,8 @@ def assemble(filename):
     assembled_lines = []
 
     with open(filename, "r") as f:
-        for _ in range(2):
-            line = f.readline()
+        lines = f.readlines()
+        for line in lines:
             tokens = line.strip().replace(",", "").split(" ")
             command, tokens = line.strip().replace(",", "").split(" ", maxsplit=1)
 
