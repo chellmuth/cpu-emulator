@@ -26,6 +26,8 @@ instructions = {
     "STR": (1, 9),
     "STB": (1, 10),
     "LOD": (1, 11),
+
+    "JMP": (2, 0),
 }
 
 def assemble(filename):
@@ -56,6 +58,22 @@ def assemble(filename):
 
                 assembled_lines.append(
                     type_code + util.int_to_bits(op_code, 4) + dest + source + right_padding
+                )
+
+            elif instruction_type == 2:
+                arg = tokens
+
+                if is_register(arg):
+                    type_code = "100"
+                    value = get_register_id(arg)
+                    right_padding = "0" * 3
+                else:
+                    type_code = "101"
+                    value = get_const_binary(arg)
+                    right_padding = ""
+
+                assembled_lines.append(
+                    type_code + util.int_to_bits(op_code, 4) + value + right_padding
                 )
 
     # print(assembled_lines)
