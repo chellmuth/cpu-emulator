@@ -1,6 +1,7 @@
 import sys
 
 from byte_stream import BitStream
+from core import Word
 
 def disassemble(filename):
     disassembled_lines = []
@@ -29,12 +30,13 @@ def disassemble(filename):
         print("CONSTANT")
 
         dest, = stream.read_int(4)
-        source, = stream.read_str(7)
+        source, = stream.read_str(28)
+        source_word = Word.from_int(int(source, 2))
         skip, = stream.read_int(3)
 
         assert(skip == 0)
 
-        print("SOURCE:", source)
+        print("SOURCE:", source_word.hex_str())
         print("DEST:", dest)
 
     print(disassembled_lines)

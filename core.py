@@ -51,6 +51,13 @@ class Word:
             self.byte4 | other.byte4,
         )
 
+    def hex_str(self):
+        return "0x" \
+            + self.byte1.hex_str() \
+            + self.byte2.hex_str() \
+            + self.byte3.hex_str() \
+            + self.byte4.hex_str() \
+
     def __repr__(self):
         return "[word=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) + "]"
 
@@ -58,6 +65,9 @@ class Byte:
     def __init__(self, int_value):
         assert((int_value >> 7) == 0)
         self.int_value = int_value
+
+    def hex_str(self):
+        return hex(self.int_value)[2:]
 
     def __eq__(self, other):
         return self.int_value == other.int_value
