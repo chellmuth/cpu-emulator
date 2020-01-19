@@ -17,6 +17,15 @@ instructions = {
     "ADD": (1, 0),
     "SUB": (1, 1),
     "MUL": (1, 2),
+    "DIV": (1, 3),
+    "CMP": (1, 4),
+    "TST": (1, 5),
+    "AND": (1, 6),
+    "ORR": (1, 7),
+    "XOR": (1, 8),
+    "STR": (1, 9),
+    "STB": (1, 10),
+    "LOD": (1, 11),
 }
 
 def assemble(filename):
