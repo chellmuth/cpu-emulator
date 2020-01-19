@@ -1,45 +1,41 @@
 import sys
 
 from byte_stream import BitStream
-from core import Word
+from core import Register, Word
 
 def disassemble(filename):
-    disassembled_lines = []
-
     stream = BitStream(filename)
     op_code, = stream.read_int(7)
 
     if op_code & 0b1111 == 0b0000:
-        print("ADD")
+        op_name = "add"
     elif op_code & 0b1111 == 0b0001:
-        print("SUB")
+        op_name = "sub"
 
     if op_code & 0b1110000 == 0b0100000:
-        print("REGISTER")
-
         source, = stream.read_int(4)
+        source_out = Register(source).name
+
         dest, = stream.read_int(4)
+        dest_out = Register(dest).name
+
         skip, = stream.read_int(6)
 
         assert(skip == 0)
 
-        print("SOURCE:", source)
-        print("DEST:", dest)
-
     elif op_code & 0b1110000 == 0b0110000:
-        print("CONSTANT")
-
         dest, = stream.read_int(4)
+        dest_out = Register(dest).name
+
         source, = stream.read_str(28)
         source_word = Word.from_int(int(source, 2))
+        source_out = source_word.hex_str()
+
         skip, = stream.read_int(3)
 
         assert(skip == 0)
 
-        print("SOURCE:", source_word.hex_str())
-        print("DEST:", dest)
-
-    print(disassembled_lines)
+    print(f"{op_name} {dest_out}, {source_out}")
 
 
 if __name__ == "__main__":
