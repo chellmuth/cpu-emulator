@@ -1,2 +1,3 @@
 ADD rc, 0x1
+SUB rd, 0x70000001
 ADD rc, 0x00000001

@@ -13,6 +13,11 @@ def get_register_id(register_name):
 def get_const_binary(hex_str, length=28):
     return util.pad(parse_hex_str(hex_str), length)
 
+instructions = {
+    "ADD": (1, 0),
+    "SUB": (1, 1),
+}
+
 def assemble(filename):
     assembled_lines = []
 
@@ -20,9 +25,14 @@ def assemble(filename):
         for _ in range(2):
             line = f.readline()
             tokens = line.strip().replace(",", "").split(" ")
-            command, arg1, arg2 = tokens
+            command, tokens = line.strip().replace(",", "").split(" ", maxsplit=1)
 
-            if command == "ADD":
+            instruction = instructions[command]
+            instruction_type, op_code = instruction
+
+            if instruction_type == 1:
+                arg1, arg2 = tokens.split(" ")
+
                 dest = get_register_id(arg1)
 
                 if is_register(arg2):
@@ -35,7 +45,7 @@ def assemble(filename):
                     right_padding = "0" * 3
 
                 assembled_lines.append(
-                    type_code + "0000" + dest + source + right_padding
+                    type_code + util.int_to_bits(op_code, 4) + dest + source + right_padding
                 )
 
     print(assembled_lines)
