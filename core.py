@@ -64,14 +64,15 @@ class Word:
         )
 
     def hex_str(self, padded=True):
+        hex_str = util.pad(self.byte1.hex_str(), 2) \
+            + util.pad(self.byte2.hex_str(), 2) \
+            + util.pad(self.byte3.hex_str(), 2) \
+            + util.pad(self.byte4.hex_str(), 2)
+
         if padded:
-            return "0x" \
-                + util.pad(self.byte1.hex_str(), 2) \
-                + util.pad(self.byte2.hex_str(), 2) \
-                + util.pad(self.byte3.hex_str(), 2) \
-                + util.pad(self.byte4.hex_str(), 2)
+            return "0x" + hex_str
         else:
-            raise "Unimplemented"
+            return "0x" + util.unpad_hex(hex_str)
 
     def __repr__(self):
         return "[word=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) + "]"

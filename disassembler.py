@@ -33,7 +33,7 @@ def _disassemble_instruction(stream):
 
         source, = stream.read_str(28)
         source_word = Word.from_int(int(source, 2))
-        source_out = source_word.hex_str()
+        source_out = source_word.hex_str(padded=False)
 
         skip, = stream.read_int(3)
 
