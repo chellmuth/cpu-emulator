@@ -28,6 +28,18 @@ instructions = {
     "LOD": (1, 11),
 
     "JMP": (2, 0),
+    "JLT": (2, 1),
+    "JEQ": (2, 2),
+    "CAL": (2, 3),
+    "PSH": (2, 4),
+    "POP": (2, 5),
+    "NOT": (2, 6),
+    "OUT": (2, 7),
+    "INP": (2, 8),
+    "AMP": (2, 9),
+    "ALT": (2, 10),
+    "AEQ": (2, 11),
+    "AAL": (2, 12),
 }
 
 def assemble(filename):

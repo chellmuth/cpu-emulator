@@ -26,6 +26,18 @@ type_1_op_names = {
 
 type_2_op_names = {
     0: "JMP",
+    1: "JLT",
+    2: "JEQ",
+    3: "CAL",
+    4: "PSH",
+    5: "POP",
+    6: "NOT",
+    7: "OUT",
+    8: "INP",
+    9: "AMP",
+    10: "ALT",
+    11: "AEQ",
+    12: "AAL",
 }
 
 op_names = {
