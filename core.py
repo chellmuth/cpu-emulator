@@ -24,14 +24,24 @@ class Flag(IntEnum):
 
 class Word:
     @classmethod
-    def from_int(cls, integer):
+    def from_int(cls, integer, endian="big"):
         mask = 0b1111111
-        return cls(
-            Byte(integer >> 0 & mask),
-            Byte(integer >> 7 & mask),
-            Byte(integer >> 14 & mask),
-            Byte(integer >> 21 & mask),
-        )
+
+        if endian == "little":
+            return cls(
+                Byte(integer >> 0 & mask),
+                Byte(integer >> 7 & mask),
+                Byte(integer >> 14 & mask),
+                Byte(integer >> 21 & mask),
+            )
+        elif endian == "big":
+            return cls(
+                Byte(integer >> 21 & mask),
+                Byte(integer >> 14 & mask),
+                Byte(integer >> 7 & mask),
+                Byte(integer >> 0 & mask),
+            )
+        else: raise ValueError
 
     # little-endian, byte1 is smallest
     def __init__(self, byte1, byte2, byte3, byte4):
