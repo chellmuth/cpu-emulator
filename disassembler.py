@@ -49,14 +49,22 @@ op_names = {
 
 def _disassemble_instruction(stream):
     type_code, = stream.read_int(3)
-    op_code, = stream.read_int(4)
 
     if stream.is_empty():
         # Our file was padded with 7 bits to complete the byte
         # Made it look like we had an instruction when we don't
         return
 
-    op_name = op_names[type_code][op_code]
+    if type_code in op_names:
+        op_code, = stream.read_int(4)
+        op_name = op_names[type_code][op_code]
+    elif type_code == 0b110:
+        op_name = "RET"
+    elif type_code == 0b111:
+        op_name = "NOP"
+    else:
+        raise ValueError
+
     if type_code == 0b010:
         source, = stream.read_int(4)
         source_out = Register(source).name
@@ -94,6 +102,11 @@ def _disassemble_instruction(stream):
         value_out = value_word.hex_str(padded=False)
 
         print(f"{op_name} {value_out}")
+    elif type_code == 0b110 or type_code == 0b111:
+        skip, = stream.read_int(4)
+        assert(skip == 0)
+
+        print(f"{op_name}")
     else:
         raise ValueError
 

@@ -1,3 +1,5 @@
+RET
+NOP
 JMP rb
 JMP 0x12345678
 ADD rc, 0x1

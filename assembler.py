@@ -40,6 +40,9 @@ instructions = {
     "ALT": (2, 10),
     "AEQ": (2, 11),
     "AAL": (2, 12),
+
+    "RET": (3, 0),
+    "NOP": (3, 1),
 }
 
 def assemble(filename):
@@ -48,8 +51,12 @@ def assemble(filename):
     with open(filename, "r") as f:
         lines = f.readlines()
         for line in lines:
-            tokens = line.strip().replace(",", "").split(" ")
-            command, tokens = line.strip().replace(",", "").split(" ", maxsplit=1)
+            split_instruction = line.strip().replace(",", "").split(" ", maxsplit=1)
+            if len(split_instruction) > 1:
+                command, tokens = split_instruction
+            else:
+                command, = split_instruction
+                tokens = None
 
             instruction = instructions[command]
             instruction_type, op_code = instruction
@@ -86,6 +93,16 @@ def assemble(filename):
 
                 assembled_lines.append(
                     type_code + util.int_to_bits(op_code, 4) + value + right_padding
+                )
+
+            elif instruction_type == 3:
+                arg = tokens
+
+                type_code = "11"
+                right_padding = "0" * 4
+
+                assembled_lines.append(
+                    type_code + util.int_to_bits(op_code, 1) + right_padding
                 )
 
     # print(assembled_lines)
