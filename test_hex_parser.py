@@ -34,4 +34,7 @@ def test_basic():
         parse_hex_str("0x80")
 
 def test_parse_bytes__little_endian():
-    assert parse_hex_str("0x0103070f") == "0001111000011100000110000001"
+    assert parse_hex_str("0x0103070f", endian="little") == "0001111000011100000110000001"
+
+def test_parse_word():
+    assert parse_hex_str("0x00000001") == "0000000000000000000000000001"

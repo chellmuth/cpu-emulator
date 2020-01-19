@@ -1,2 +1,2 @@
-ADD rc, 0x0000
-ADD rd, 0x0000
+ADD rc, 0x00000001
+ADD rc, 0x00000001

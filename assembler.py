@@ -19,7 +19,7 @@ def assemble(filename):
     with open(filename, "r") as f:
         for _ in range(2):
             line = f.readline()
-            tokens = line.replace(",", "").split(" ")
+            tokens = line.strip().replace(",", "").split(" ")
             command, arg1, arg2 = tokens
 
             if command == "ADD":

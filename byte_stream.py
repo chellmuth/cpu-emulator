@@ -1,7 +1,9 @@
 import util
 
 class ByteStream:
-    def __init__(self, filename):
+    def __init__(self, filename, reverse_bits=False):
+        self.reverse_bits = reverse_bits
+
         real_bytes = open(filename, "rb").read()
 
         # from bytes -> list of binary-encoding strings [ "11010", "0111", ... ]
@@ -15,6 +17,11 @@ class ByteStream:
         # one big sequence of binary
         self.bin_str = "".join(byte_strs)
 
+        # print(self.bin_str)
+
+    def is_empty(self):
+        # todo: pad the input to always have a full byte at the end
+        return len(self.bin_str) < 7
 
     def read(self, byte_count):
         byte_list = []
@@ -22,10 +29,15 @@ class ByteStream:
             if len(self.bin_str) >= 7:
                 # take seven bits from the front of the string, reverse them
                 byte_str = self.bin_str[:7]
-                reversed_byte_str = byte_str[::-1]
 
-                # byte_list.append(int(reversed_byte_str, 2))
-                byte_list.append(int(byte_str, 2))
+                if self.reverse_bits:
+                    reversed_byte_str = byte_str[::-1]
+                else:
+                    reversed_byte_str = byte_str
+
+                byte_list.append(int(reversed_byte_str, 2))
+
+                self.bin_str = self.bin_str[7:]
 
         return byte_list
 
