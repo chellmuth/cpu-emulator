@@ -44,7 +44,10 @@ class BitStream:
 
         # one big sequence of binary
         self.bin_str = "".join(byte_strs)
+        print(self.bin_str)
 
+    def is_empty(self):
+        return len(self.bin_str) == 0
 
     def read_int(self, bit_count):
         assert(bit_count <= 7)

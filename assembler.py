@@ -17,25 +17,26 @@ def assemble(filename):
     assembled_lines = []
 
     with open(filename, "r") as f:
-        line = f.readline()
-        tokens = line.replace(",", "").split(" ")
-        command, arg1, arg2 = tokens
+        for _ in range(2):
+            line = f.readline()
+            tokens = line.replace(",", "").split(" ")
+            command, arg1, arg2 = tokens
 
-        if command == "ADD":
-            dest = get_register_id(arg1)
+            if command == "ADD":
+                dest = get_register_id(arg1)
 
-            if is_register(arg2):
-                type_code = "010"
-                source = get_register_id(arg2)
-                right_padding = "0" * 6
-            else:
-                type_code = "011"
-                source = get_const_binary(arg2)
-                right_padding = "0" * 3
+                if is_register(arg2):
+                    type_code = "010"
+                    source = get_register_id(arg2)
+                    right_padding = "0" * 6
+                else:
+                    type_code = "011"
+                    source = get_const_binary(arg2)
+                    right_padding = "0" * 3
 
-            assembled_lines.append(
-                type_code + "0000" + dest + source + right_padding
-            )
+                assembled_lines.append(
+                    type_code + "0000" + dest + source + right_padding
+                )
 
     print(assembled_lines)
 

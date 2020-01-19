@@ -1,4 +1,2 @@
-ADD rc, 0xa293
-ADD rd, 0x8
-ADD rd, rc
-STB rd, 0x6e
+ADD rc, 0x0000
+ADD rd, 0x0000

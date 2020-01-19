@@ -5,6 +5,11 @@ from core import Register, Word
 
 def disassemble(filename):
     stream = BitStream(filename)
+
+    while not stream.is_empty():
+        _disassemble_instruction(stream)
+
+def _disassemble_instruction(stream):
     op_code, = stream.read_int(7)
 
     if op_code & 0b1111 == 0b0000:
