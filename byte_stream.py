@@ -56,7 +56,7 @@ class BitStream:
 
         # one big sequence of binary
         self.bin_str = "".join(byte_strs)
-        print(self.bin_str)
+        # print(self.bin_str)
 
     def is_empty(self):
         # todo: pad the input to always have a full byte at the end

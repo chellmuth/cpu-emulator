@@ -1,5 +1,5 @@
 ADD rc, 0x1
 SUB rd, 0x70000001
-ADD rc, 0x00000001
+ADD rc, ra
 MUL rd, 0xa
 LOD ra, 0x08127f

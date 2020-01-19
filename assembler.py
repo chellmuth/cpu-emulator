@@ -58,7 +58,7 @@ def assemble(filename):
                     type_code + util.int_to_bits(op_code, 4) + dest + source + right_padding
                 )
 
-    print(assembled_lines)
+    # print(assembled_lines)
 
     with open("out.o", "wb") as f:
         contents = "".join(assembled_lines)
