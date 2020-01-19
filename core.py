@@ -1,5 +1,7 @@
 from enum import IntEnum
 
+import util
+
 class Register(IntEnum):
     ra = 0
     rb = 1
@@ -61,12 +63,15 @@ class Word:
             self.byte4 | other.byte4,
         )
 
-    def hex_str(self):
-        return "0x" \
-            + self.byte1.hex_str() \
-            + self.byte2.hex_str() \
-            + self.byte3.hex_str() \
-            + self.byte4.hex_str() \
+    def hex_str(self, padded=True):
+        if padded:
+            return "0x" \
+                + util.pad(self.byte1.hex_str(), 2) \
+                + util.pad(self.byte2.hex_str(), 2) \
+                + util.pad(self.byte3.hex_str(), 2) \
+                + util.pad(self.byte4.hex_str(), 2)
+        else:
+            raise "Unimplemented"
 
     def __repr__(self):
         return "[word=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) + "]"
