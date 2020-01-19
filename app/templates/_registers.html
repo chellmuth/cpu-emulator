@@ -1,0 +1,14 @@
+<div>
+  Registers:
+  <table>
+    <tr>
+      <th>Name</th><th>Value</th>
+    </tr>
+    {% for register in registers %}
+      <tr>
+          <td>{{register["name"]}}</td>
+          <td>{{register["value"]}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
