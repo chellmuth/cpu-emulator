@@ -41,17 +41,18 @@ def assemble(filename):
     print(assembled_lines)
 
     with open("out.o", "wb") as f:
-        for line in assembled_lines:
-            line = util.fill_to_real_byte(line)
-            byte_count = len(line) // 8
+        contents = "".join(assembled_lines)
 
-            int_values = []
-            for i in range(byte_count):
-                byte_str = line[i*8 : i*8 + 8]
-                int_value = int(byte_str, 2)
-                int_values.append(int_value)
+        contents = util.fill_to_real_byte(contents)
+        byte_count = len(contents) // 8
 
-            f.write(bytearray(int_values))
+        int_values = []
+        for i in range(byte_count):
+            byte_str = contents[i*8 : i*8 + 8]
+            int_value = int(byte_str, 2)
+            int_values.append(int_value)
+
+        f.write(bytearray(int_values))
 
 if __name__ == "__main__":
     assemble(sys.argv[1])
