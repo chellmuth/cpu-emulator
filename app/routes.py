@@ -59,8 +59,13 @@ def render_emulator():
         RegisterView("rb", machine.registers[1].hex_str() ),
     ]
 
+    available_actions = set()
+    if program:
+        available_actions.add("step")
+
     return render_template(
         "emulator.html",
         instruction=instruction_view,
         registers=registers_view,
+        available_actions=available_actions
     )

@@ -5,11 +5,13 @@
 <body>
 {% include "_instruction.html" %}
 {% include "_registers.html" %}
+{% if "step" in available_actions %}
 <div>
   <form action="/" method="POST">
     <button type="submit">Step</button>
   </form>
 </div>
+{% endif %}
 <div>
   <br /><br /><br /><br /><br /><br />
   <form action="/reset" method="POST">
