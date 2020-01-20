@@ -92,7 +92,8 @@ def reset_app():
         "PSH 0x1",
         "POP ra",
         "XOR ra, 0x3",
-        "XOR ra, 0x2"
+        "XOR ra, 0x2",
+        "NOP",
     ]
 
     machine = Machine()
