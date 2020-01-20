@@ -43,8 +43,8 @@ def add_word(word1, word2):
     if int_sum == 0:
         flags.add(Flag.ZF)
 
-    sign_bit = 1 << 23
-    overflow_bit = 1 << 24
+    sign_bit = 1 << 27
+    overflow_bit = 1 << 28
 
     if int_sum & sign_bit:
         flags.add(Flag.SF)
@@ -52,7 +52,7 @@ def add_word(word1, word2):
     if int_sum & overflow_bit:
         flags.add(Flag.CF)
 
-    if not ((word1.int_value() & sign_bit) ^ (word2.int_value() & sign_bit)):
-        flags.add(Flag.OF)
+        if not ((word1.int_value() & sign_bit) ^ (word2.int_value() & sign_bit)):
+            flags.add(Flag.OF)
 
     return Word.from_int(int_sum), flags

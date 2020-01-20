@@ -74,6 +74,13 @@ class Word:
             self.byte4 ^ other.byte4,
         )
 
+    def __eq__(self, other):
+        return \
+            self.byte1 == other.byte1 and \
+            self.byte2 == other.byte2 and \
+            self.byte3 == other.byte3 and \
+            self.byte4 == other.byte4
+
     def hex_str(self, padded=True):
         hex_str = util.pad(self.byte4.hex_str(), 2) \
             + util.pad(self.byte3.hex_str(), 2) \
@@ -149,6 +156,9 @@ class Byte:
 
     def __xor__(self, other):
         return Byte(self.int_value ^ other.int_value)
+
+    def __eq__(self, other):
+        return self.int_value == other.int_value
 
     def __repr__(self):
         return bin(self.int_value)[2:]
