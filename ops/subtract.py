@@ -36,6 +36,16 @@ class SubtractConstantInstruction(instruction_base.Type1ConstantInstruction):
         )
 
 def subtract_word(word1, word2):
-    int_sum = word1.int_value() - word2.int_value()
+    flags = set()
 
-    return Word.from_int(int_sum), set()
+    int_result = word1.int_value() - word2.int_value()
+
+    if int_result == 0:
+        flags.add(Flag.ZF)
+
+    sign_bit = 1 << 27
+
+    if int_result & sign_bit:
+        flags.add(Flag.SF)
+
+    return Word.from_int(int_result), flags
