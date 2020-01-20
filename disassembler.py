@@ -5,7 +5,7 @@ from core import Register, Word
 from instruction import Type1RegisterInstruction, Type1ConstantInstruction, Type2RegisterInstruction, Type2ConstantInstruction, NopInstruction, RetInstruction
 
 def disassemble(filename):
-    stream = BitStream(filename)
+    stream = BitStream.from_filename(filename)
 
     while not stream.is_empty():
         instruction = _disassemble_instruction(stream)

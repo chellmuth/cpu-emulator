@@ -43,9 +43,12 @@ class ByteStream:
 
 
 class BitStream:
-    def __init__(self, filename):
+    @classmethod
+    def from_filename(cls, filename):
         real_bytes = open(filename, "rb").read()
+        return cls(real_bytes)
 
+    def __init__(self, real_bytes):
         # from bytes -> list of binary-encoding strings [ "11010", "0111", ... ]
         bits_strs = [
             bin(byte)[2:] for byte in real_bytes
