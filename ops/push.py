@@ -7,13 +7,15 @@ class PushRegisterInstruction(instruction_base.Type2RegisterInstruction):
         super().__init__("PSH", value_register)
 
     def run(self, machine):
-        dest = Word.from_int(machine.registers[Register.sp].int_value() + 4)
+        # Push + pop doesn't work as specified
+        # dest = machine.registers[Register.sp].incremented(4)
+        dest = machine.registers[Register.sp]
         return MachineUpdate(
             memory={
                 dest: machine.registers[self.value_register]
             },
             registers={
-                Register.sp: Word.from_int(machine.registers[Register.sp].int_value() - 4)
+                Register.sp: machine.registers[Register.sp].incremented(-4)
             }
         )
 
@@ -22,12 +24,14 @@ class PushConstantInstruction(instruction_base.Type2ConstantInstruction):
         super().__init__("PSH", value_word)
 
     def run(self, machine):
-        dest = Word.from_int(machine.registers[Register.sp].int_value() + 4)
+        # Push + pop doesn't work as specified
+        # dest = machine.registers[Register.sp].incremented(4)
+        dest = machine.registers[Register.sp]
         return MachineUpdate(
             memory={
                 dest: self.value_word
             },
             registers={
-                Register.sp: Word.from_int(machine.registers[Register.sp].int_value() - 4)
+                Register.sp: machine.registers[Register.sp].incremented(-4)
             }
         )

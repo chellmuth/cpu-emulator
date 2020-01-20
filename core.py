@@ -83,6 +83,10 @@ class Word:
         self.byte3 = new_word.byte3
         self.byte4 = new_word.byte4
 
+    def incremented(self, amount):
+        new_word = Word.from_int(self.int_value() + amount)
+        return new_word
+
     def int_value(self):
         return \
             self.byte4.int_value << 0 | \

@@ -5,6 +5,7 @@ import ops.bitwise_or
 import ops.jump
 import ops.load
 import ops.out
+import ops.pop
 import ops.push
 import ops.store
 
@@ -46,6 +47,7 @@ def type2_register_factory(op_name, value_register):
     cls_lookup = {
         "JMP": ops.jump.JumpRelativeRegisterInstruction,
         "PSH": ops.push.PushRegisterInstruction,
+        "POP": ops.pop.PopRegisterInstruction,
         "OUT": ops.out.PrintRegisterInstruction,
         "AMP": ops.jump.JumpAbsoluteRegisterInstruction,
         "NOT": ops.bitwise_not.BitwiseNotRegisterInstruction,

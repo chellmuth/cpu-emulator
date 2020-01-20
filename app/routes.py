@@ -43,6 +43,7 @@ def reset_app():
 
     program = [
         "PSH 0x01000001",
+        "POP rd",
         "OUT 0x6c000000",
         "LOD rc, 0xb",
         "LOD rc, ra",
