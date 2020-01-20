@@ -87,6 +87,34 @@ class JumpRelativeLessThanConstantInstruction(instruction_base.Type2ConstantInst
             }
         )
 
+class JumpAbsoluteLessThanRegisterInstruction(instruction_base.Type2RegisterInstruction):
+    def __init__(self, value_register):
+        super().__init__("ALT", value_register)
+
+    def run(self, machine):
+        if (Flag.SF in machine.flags) == (Flag.OF in machine.flags):
+            return MachineUpdate()
+
+        return MachineUpdate(
+            registers={
+                Register.pc: machine.registers[self.value_register],
+            }
+        )
+
+class JumpAbsoluteLessThanConstantInstruction(instruction_base.Type2ConstantInstruction):
+    def __init__(self, value_word):
+        super().__init__("ALT", value_word)
+
+    def run(self, machine):
+        if (Flag.SF in machine.flags) == (Flag.OF in machine.flags):
+            return MachineUpdate()
+
+        return MachineUpdate(
+            registers={
+                Register.pc: self.value_word
+            }
+        )
+
 class JumpRelativeEqualRegisterInstruction(instruction_base.Type2RegisterInstruction):
     def __init__(self, value_register):
         super().__init__("JEQ", value_register)
