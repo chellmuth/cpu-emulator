@@ -13,7 +13,7 @@ class Type1RegisterInstruction(Instruction):
     @classmethod
     def factory(cls, op_name, source_register, dest_register):
         cls_lookup = {
-            "ADD": AddRegisterInstruction
+            "ADD": AddRegisterInstruction,
         }
 
         if op_name in cls_lookup:
@@ -106,6 +106,19 @@ class RetInstruction(Instruction):
 class AddRegisterInstruction(Type1RegisterInstruction):
     def __init__(self, dest_register, source_register):
         super().__init__("ADD", dest_register, source_register)
+
+    def run(self, machine):
+        result, flags = add(
+            machine.registers[self.dest_register].low_byte(),
+            machine.registers[self.source_register].low_byte()
+        )
+
+        return MachineUpdate(
+            registers={
+                self.dest_register: Word(result, Byte(0b0), Byte(0b0), Byte(0b0))
+            },
+            flags=flags
+        )
 
 class AddConstantInstruction(Type1ConstantInstruction):
     def __init__(self, dest_register, source_word):

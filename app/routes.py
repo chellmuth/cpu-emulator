@@ -14,6 +14,7 @@ class RegisterView:
 program = [
     "ADD ra, 0x10000000",
     "ADD ra, 0x20000000",
+    "ADD ra, rb",
     "ADD ra, 0x30000000",
 ]
 print(program)
