@@ -64,7 +64,7 @@ class Machine:
         return disassembler.disassemble_instruction(stream, strict=False)
 
     def glob_instructions(self, base_address=None):
-        if not base_address:
+        if base_address is None:
             base_address = self.registers[Register.pc].int_value()
 
         failed = False
