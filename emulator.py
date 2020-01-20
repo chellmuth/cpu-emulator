@@ -61,4 +61,4 @@ class Machine:
             for offset in range(6) # max instruction size
         ])
         stream = BitStream(bin_str)
-        return disassembler.disassemble_instruction(stream)
+        return disassembler.disassemble_instruction(stream, strict=False)

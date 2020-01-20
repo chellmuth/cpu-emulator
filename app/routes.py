@@ -25,10 +25,8 @@ class MemoryView:
 
 
 machine = None
-program = []
 
 def reset_app():
-    global program
     global machine
 
     program = [
@@ -57,9 +55,7 @@ def show():
 
 @app.route('/', methods=["POST"])
 def update():
-    instruction_text = program.pop(0).strip()
-    instruction = assembler.parse_to_instruction(instruction_text)
-
+    instruction = machine.next_instruction()
     machine.run(instruction)
 
     return render_emulator()
@@ -71,11 +67,12 @@ def reset():
     return redirect("/")
 
 def render_emulator():
-    if not program:
+    instruction = machine.next_instruction()
+
+    if not instruction:
         instruction_view = "--"
     else:
-        instruction_view = program[0].strip()
-        instruction_view = machine.next_instruction().human()
+        instruction_view = instruction.human()
 
     registers_view = [
         RegisterView(register.name, machine.registers[register.value].hex_str() )
@@ -95,7 +92,7 @@ def render_emulator():
     ])
 
     available_actions = set()
-    if program:
+    if instruction:
         available_actions.add("step")
 
     return render_template(

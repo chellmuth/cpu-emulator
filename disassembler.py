@@ -51,7 +51,7 @@ op_names = {
     0b101: type_2_op_names,
 }
 
-def disassemble_instruction(stream):
+def disassemble_instruction(stream, strict=False):
     type_code, = stream.read_int(3)
 
     if stream.is_empty():
@@ -67,7 +67,10 @@ def disassemble_instruction(stream):
     elif type_code == 0b111:
         op_name = "NOP"
     else:
-        raise ValueError
+        if strict:
+            raise ValueError
+        else:
+            return
 
     if type_code == 0b010:
         source, = stream.read_int(4)
@@ -127,7 +130,10 @@ def disassemble_instruction(stream):
         return instruction.RetInstruction()
 
     else:
-        raise ValueError
+        if strict:
+            raise ValueError
+        else:
+            return
 
 if __name__ == "__main__":
     disassemble(sys.argv[1])
