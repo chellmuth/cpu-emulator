@@ -51,6 +51,7 @@ def reset_app():
         "NOP",
         "JMP 0x6",
         "ORR ra, 0x10010000",
+        "NOT rc",
         "ADD ra, rb",
         "ADD ra, 0x30000000",
     ]

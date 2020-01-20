@@ -90,6 +90,14 @@ class Word:
             self.byte2.int_value << 14 | \
             self.byte1.int_value << 21
 
+    def __invert__(self):
+        return Word(
+            ~self.byte1,
+            ~self.byte2,
+            ~self.byte3,
+            ~self.byte4
+        )
+
     def __repr__(self):
         return "[word=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) + "]"
 
@@ -111,6 +119,11 @@ class Byte:
             return util.pad(hex(self.int_value)[2:], 2)
 
         return hex(self.int_value)[2:]
+
+    def __invert__(self):
+        inverted_int = ~self.int_value
+        masked_int = inverted_int & 0b01111111
+        return Byte(masked_int)
 
     def __eq__(self, other):
         return self.int_value == other.int_value

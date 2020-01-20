@@ -1,5 +1,6 @@
 import instruction_base
 import ops.add
+import ops.bitwise_not
 import ops.bitwise_or
 import ops.jump
 import ops.load
@@ -45,6 +46,7 @@ def type2_register_factory(op_name, value_register):
         "JMP": ops.jump.JumpRelativeRegisterInstruction,
         "OUT": ops.out.PrintRegisterInstruction,
         "AMP": ops.jump.JumpAbsoluteRegisterInstruction,
+        "NOT": ops.bitwise_not.BitwiseNotRegisterInstruction,
     }
 
     if op_name in cls_lookup:
