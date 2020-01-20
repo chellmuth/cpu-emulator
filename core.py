@@ -93,6 +93,12 @@ class Byte:
         assert((int_value >> 7) == 0)
         self.int_value = int_value
 
+    def bin_str(self, padded=False):
+        if padded:
+            return util.pad(bin(self.int_value)[2:], 7)
+        else:
+            return bin(self.int_value)[2:]
+
     def hex_str(self):
         return hex(self.int_value)[2:]
 

@@ -75,6 +75,7 @@ def render_emulator():
         instruction_view = "--"
     else:
         instruction_view = program[0].strip()
+        instruction_view = machine.next_instruction().human()
 
     registers_view = [
         RegisterView("ra", machine.registers[0].hex_str() ),
