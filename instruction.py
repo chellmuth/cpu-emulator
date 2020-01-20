@@ -2,6 +2,7 @@ import instruction_base
 import ops.add
 import ops.bitwise_or
 import ops.jump
+import ops.out
 import ops.store
 
 def type1_register_factory(op_name, source_register, dest_register):
@@ -39,6 +40,7 @@ def type1_constant_factory(op_name, dest_register, source_word):
 def type2_register_factory(op_name, value_register):
     cls_lookup = {
         "JMP": ops.jump.JumpRegisterInstruction,
+        "OUT": ops.out.PrintRegisterInstruction,
     }
 
     if op_name in cls_lookup:
@@ -49,6 +51,7 @@ def type2_register_factory(op_name, value_register):
 def type2_constant_factory(op_name, value_word):
     cls_lookup = {
         "JMP": ops.jump.JumpConstantInstruction,
+        "OUT": ops.out.PrintConstantInstruction,
     }
 
     if op_name in cls_lookup:

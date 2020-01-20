@@ -10,6 +10,7 @@ class MachineUpdate:
     registers: Dict[Register, Word] = field(default_factory=dict)
     memory: Dict[Word, Word] = field(default_factory=dict)
     flags: Set[Flag] = field(default_factory=set)
+    stdout: int = None
 
 class Memory:
     def __init__(self):
@@ -36,6 +37,7 @@ class Machine:
     def __init__(self):
         self.memory = Memory()
         self.registers = [ Word(Byte(0b0), Byte(0b0), Byte(0b0), Byte(0b0)) for _ in Register ]
+        self.stdout = [ Byte(72), Byte(101) ]
         self.flags = set()
 
     def __repr__(self):
@@ -51,6 +53,10 @@ class Machine:
 
         for address, word in update.memory.items():
             self.memory.write(address, word.low_byte())
+
+        if update.stdout is not None:
+            self.stdout.append(update.stdout)
+            print(self.stdout)
 
         self.registers[Register.pc].increment(instruction.size)
 

@@ -41,6 +41,7 @@ def reset_app():
     global machine
 
     program = [
+        "OUT 0x6c000000",
         "ADD ra, 0x10000001",
         "JMP 0x6",
         "STB ra, 0x50",
@@ -87,6 +88,11 @@ def render_emulator():
     else:
         instruction_view = instruction.human()
 
+    available_actions = set()
+    if instruction:
+        print(instruction)
+        available_actions.add("step")
+
     address = 0
     instruction_views = []
     for instruction in machine.glob_instructions(0):
@@ -121,9 +127,7 @@ def render_emulator():
         for row in range(memory.size // (columns * 4))
     ])
 
-    available_actions = set()
-    if instruction:
-        available_actions.add("step")
+    stdout_view = "".join([ chr(char.int_value) for char in machine.stdout ])
 
     return render_template(
         "emulator.html",
@@ -131,5 +135,6 @@ def render_emulator():
         registers=registers_view,
         disassembled=disassembled_view,
         memory=memory_view,
+        stdout=stdout_view,
         available_actions=available_actions
     )
