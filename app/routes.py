@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 from flask import render_template, redirect
 
@@ -10,6 +11,17 @@ from emulator import Machine
 class RegisterView:
     name: str
     value: str
+
+@dataclass
+class MemoryRowView:
+    address: str
+    words: List[str]
+
+@dataclass
+class MemoryView:
+    columns: int
+    rows: List[MemoryRowView]
+
 
 machine = None
 program = []
@@ -61,11 +73,17 @@ def render_emulator():
         RegisterView("rb", machine.registers[1].hex_str() ),
     ]
 
-    memory_view = [
-        (address.hex_str(), value.hex_str())
-        for address, value
-        in machine.memory.items()
-    ]
+    memory = machine.memory
+    memory_view = MemoryView(2, [
+        MemoryRowView(
+            address * 8,
+            [
+                memory.read_word(address * 8 + 0).hex_str(),
+                memory.read_word(address * 8 + 4).hex_str(),
+            ]
+        )
+        for address in range(memory.size // (2 * 8))
+    ])
 
     available_actions = set()
     if program:

@@ -2,12 +2,17 @@
   Memory:
   <table>
     <tr>
-      <th>Address</th><th>Value</th>
+      <th>Address</th>
+      {% for _ in range(memory.columns) %}
+        <th></th>
+      {% endfor %}
     </tr>
-    {% for address, value in memory %}
+    {% for row in memory.rows %}
       <tr>
-          <td>{{address}}</td>
-          <td>{{value}}</td>
+          <td>{{row.address}}</td>
+          {% for word in row.words %}
+            <td>{{word}}</td>
+          {% endfor %}
       </tr>
     {% endfor %}
   </table>

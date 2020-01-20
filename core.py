@@ -25,6 +25,8 @@ class Flag(IntEnum):
     SF = 3 # Sign flag
 
 class Word:
+    size = 4
+
     @classmethod
     def from_int(cls, integer, endian="big"):
         mask = 0b1111111
@@ -74,10 +76,19 @@ class Word:
         else:
             return "0x" + util.unpad_hex(hex_str)
 
+    def int_value(self):
+        return \
+            self.byte1.int_value << 0 | \
+            self.byte2.int_value << 7 | \
+            self.byte3.int_value << 14 | \
+            self.byte4.int_value << 21
+
     def __repr__(self):
         return "[word=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) + "]"
 
 class Byte:
+    size = 1
+
     def __init__(self, int_value):
         assert((int_value >> 7) == 0)
         self.int_value = int_value
