@@ -103,10 +103,13 @@ class Byte:
     def bin_str(self, padded=False):
         if padded:
             return util.pad(bin(self.int_value)[2:], 7)
-        else:
-            return bin(self.int_value)[2:]
 
-    def hex_str(self):
+        return bin(self.int_value)[2:]
+
+    def hex_str(self, padded=False):
+        if padded:
+            return util.pad(hex(self.int_value)[2:], 2)
+
         return hex(self.int_value)[2:]
 
     def __eq__(self, other):

@@ -62,3 +62,24 @@ class Machine:
         ])
         stream = BitStream(bin_str)
         return disassembler.disassemble_instruction(stream, strict=False)
+
+    def glob_instructions(self, base_address=None):
+        if not base_address:
+            base_address = self.registers[Register.pc].int_value()
+
+        failed = False
+        instructions = []
+        while not failed:
+            bin_str = "".join([
+                self.memory.read_byte(base_address + offset).bin_str(padded=True)
+                for offset in range(6) # max instruction size
+            ])
+            stream = BitStream(bin_str)
+            instruction = disassembler.disassemble_instruction(stream, strict=False)
+            if instruction:
+                base_address += instruction.size
+                instructions.append(instruction)
+            else:
+                failed = True
+
+        return instructions

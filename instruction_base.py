@@ -6,8 +6,13 @@ class Instruction:
     def human(self):
         raise Exception("Unimplemented")
 
-    def words(self):
+    def bytes(self):
         raise Exception("Unimplemented")
+
+    def bytes_str(self):
+        return "".join([
+            byte.hex_str(padded=True) for byte in self.bytes()
+        ])
 
     def run(self, machine):
         raise Exception("Unimplemented")

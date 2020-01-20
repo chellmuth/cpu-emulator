@@ -9,6 +9,16 @@ from core import Byte, Word, Register
 from emulator import Machine
 
 @dataclass
+class DisassembledInstructionView:
+    address: str
+    hex_str: str
+    instruction_text: str
+
+@dataclass
+class DisassembledView:
+    instructions: List[DisassembledInstructionView]
+
+@dataclass
 class RegisterView:
     name: str
     value: str
@@ -30,7 +40,7 @@ def reset_app():
     global machine
 
     program = [
-        "ADD ra, 0x10000000",
+        "ADD ra, 0x10000001",
         "STB ra, 0x50",
         "ADD rb, 0x01000000",
         "ORR ra, 0x10010000",
@@ -74,6 +84,20 @@ def render_emulator():
     else:
         instruction_view = instruction.human()
 
+    address = 0
+    instruction_views = []
+    for instruction in machine.glob_instructions(0):
+        instruction_views.append(
+            DisassembledInstructionView(
+                address,
+                instruction.bytes_str(),
+                instruction.human()
+            )
+        )
+        address += instruction.size
+
+    disassembled_view = DisassembledView(instruction_views)
+
     registers_view = [
         RegisterView(register.name, machine.registers[register.value].hex_str() )
         for register in Register
@@ -99,6 +123,7 @@ def render_emulator():
         "emulator.html",
         instruction=instruction_view,
         registers=registers_view,
+        disassembled=disassembled_view,
         memory=memory_view,
         available_actions=available_actions
     )
