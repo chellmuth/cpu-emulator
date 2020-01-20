@@ -5,7 +5,7 @@ from flask import render_template, redirect
 
 import assembler
 from app import app
-from core import Byte
+from core import Byte, Word, Register
 from emulator import Machine
 
 @dataclass
@@ -33,7 +33,7 @@ def reset_app():
 
     program = [
         "ADD ra, 0x10000000",
-        "STB ra, 0x0a000000",
+        "STB ra, 0x50",
         "ADD rb, 0x01000000",
         "ORR ra, 0x10010000",
         "ADD ra, rb",
@@ -46,7 +46,7 @@ def reset_app():
     for line in program:
         instruction = assembler.parse_to_instruction(line)
         for byte in instruction.bytes():
-            machine.memory.write(Byte(memory_offset), byte)
+            machine.memory.write(Word.from_int(memory_offset), byte)
             memory_offset += 1
 
 reset_app()
@@ -78,8 +78,8 @@ def render_emulator():
         instruction_view = machine.next_instruction().human()
 
     registers_view = [
-        RegisterView("ra", machine.registers[0].hex_str() ),
-        RegisterView("rb", machine.registers[1].hex_str() ),
+        RegisterView(register.name, machine.registers[register.value].hex_str() )
+        for register in Register
     ]
 
     memory = machine.memory

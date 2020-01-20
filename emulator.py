@@ -19,7 +19,7 @@ class Memory:
         ]
 
     def write(self, address, value):
-        self.memory[address.int_value] = value
+        self.memory[address.int_value()] = value
 
     def read_byte(self, address):
         return self.memory[address]
