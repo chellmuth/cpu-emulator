@@ -53,7 +53,6 @@ def add_word(word1, word2):
     if int_sum & overflow_bit:
         flags.add(Flag.CF)
 
-
     if not ((word1.int_value() & sign_bit) ^ (word2.int_value() & sign_bit)):
         flags.add(Flag.OF)
 

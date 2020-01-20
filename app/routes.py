@@ -6,7 +6,7 @@ from flask import render_template, redirect
 
 import assembler
 from app import app
-from core import Byte, Word, Register
+from core import Byte, Word, Register, Flag
 from emulator import Machine
 
 @dataclass
@@ -46,6 +46,10 @@ class MemoryView:
     columns: int
     rows: List[MemoryRowView]
 
+@dataclass
+class FlagView:
+    name: str
+    on: bool
 
 machine = None
 
@@ -87,7 +91,8 @@ def reset_app():
     program = [
         "PSH 0x1",
         "POP ra",
-        "XOR ra, 0x3"
+        "XOR ra, 0x3",
+        "XOR ra, 0x2"
     ]
 
     machine = Machine()
@@ -177,12 +182,18 @@ def render_emulator():
         for row in range(((memory.size - 1) - stack_pointer) // 4)
     ])
 
+    flags_view = [
+        FlagView(flag.name, flag.value in machine.flags)
+        for flag in Flag
+    ]
+
     stdout_view = "".join([ chr(char.int_value) for char in machine.stdout ])
 
     return render_template(
         "emulator.html",
         instruction=instruction_view,
         registers=registers_view,
+        flags=flags_view,
         disassembled=disassembled_view,
         stack=stack_view,
         memory=memory_view,

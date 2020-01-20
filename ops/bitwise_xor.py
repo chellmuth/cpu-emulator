@@ -1,4 +1,5 @@
 import instruction_base
+from core import Flag
 from emulator import MachineUpdate
 
 class BitwiseXorRegisterInstruction(instruction_base.Type1RegisterInstruction):
@@ -6,7 +7,7 @@ class BitwiseXorRegisterInstruction(instruction_base.Type1RegisterInstruction):
         super().__init__("XOR", dest_register, source_register)
 
     def run(self, machine):
-        result, _ = bitwise_xor(
+        result, flags = bitwise_xor(
             machine.registers[self.dest_register],
             machine.registers[self.source_register]
         )
@@ -14,7 +15,8 @@ class BitwiseXorRegisterInstruction(instruction_base.Type1RegisterInstruction):
         return MachineUpdate(
             registers={
                 self.dest_register: result
-            }
+            },
+            flags=flags
         )
 
 class BitwiseXorConstantInstruction(instruction_base.Type1ConstantInstruction):
@@ -22,7 +24,7 @@ class BitwiseXorConstantInstruction(instruction_base.Type1ConstantInstruction):
         super().__init__("XOR", dest_register, source_word)
 
     def run(self, machine):
-        result, _ = bitwise_xor(
+        result, flags = bitwise_xor(
             machine.registers[self.dest_register],
             self.source_word
         )
@@ -30,8 +32,19 @@ class BitwiseXorConstantInstruction(instruction_base.Type1ConstantInstruction):
         return MachineUpdate(
             registers={
                 self.dest_register: result
-            }
+            },
+            flags=flags
         )
 
 def bitwise_xor(word1, word2):
-    return word1 ^ word2, set()
+    result = word1 ^ word2
+
+    flags = set()
+    if result.int_value() == 0:
+        flags.add(Flag.ZF)
+
+    sign_bit = 1 << 23
+    if result.int_value() & sign_bit:
+        flags.add(Flag.SF)
+
+    return result, flags

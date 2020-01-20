@@ -1,0 +1,20 @@
+<div>
+  Flags:
+  <table>
+    <tr>
+      <th>Name</th><th>Value</th>
+    </tr>
+    {% for flag in flags %}
+      <tr>
+        <td>{{flag.name}}</td>
+        <td>
+          {% if flag.on %}
+            1
+          {% else %}
+            0
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
