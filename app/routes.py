@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 from typing import List
 
@@ -41,15 +42,14 @@ def reset_app():
     global machine
 
     program = [
+        "PSH 0x01000001",
         "OUT 0x6c000000",
         "LOD rc, 0xb",
         "LOD rc, ra",
         "ADD ra, 0x10000001",
-        "AMP 0x1f",
         "STB ra, 0x50",
         "ADD rb, 0x01000000",
         "NOP",
-        "JMP 0x6",
         "ORR ra, 0x10010000",
         "NOT rc",
         "ADD ra, rb",
@@ -126,9 +126,10 @@ def render_emulator():
             [
                 memory.read_word((row * columns + column) * 4).hex_str()
                 for column in range(columns)
+                if (row * columns + column) * 4 < memory.size
             ]
         )
-        for row in range(memory.size // (columns * 4))
+        for row in range(math.ceil(memory.size / (columns * 4)))
     ])
 
     stdout_view = "".join([ chr(char.int_value) for char in machine.stdout ])

@@ -13,8 +13,10 @@ class MachineUpdate:
     stdout: int = None
 
 class Memory:
+    size = 500
     def __init__(self):
-        self.size = 500
+        assert self.size % 4 == 0
+
         self.memory = [
             Byte(0b0) for _ in range(self.size)
         ]
