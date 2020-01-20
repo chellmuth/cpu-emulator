@@ -3,11 +3,18 @@ from byte_stream import ByteStream
 from core import Byte
 
 class Instruction:
+    size = None
+
     def human(self):
         raise Exception("Unimplemented")
 
     def bytes(self):
-        raise Exception("Unimplemented")
+        bin_str = assembler.assemble_line(self.human())
+        stream = ByteStream(bin_str)
+
+        return [
+            Byte(byte) for byte in stream.read(self.size)
+        ]
 
     def bytes_str(self):
         return "".join([
@@ -31,14 +38,6 @@ class Type1RegisterInstruction(Instruction):
 
         return f"{self.op_name} {source_out}, {dest_out}"
 
-    def bytes(self):
-        bin_str = assembler.assemble_line(self.human())
-        stream = ByteStream(bin_str)
-
-        return [
-            Byte(byte) for byte in stream.read(3)
-        ]
-
 class Type1ConstantInstruction(Instruction):
     size = 6
 
@@ -52,14 +51,6 @@ class Type1ConstantInstruction(Instruction):
         dest_out = self.dest_register.name
 
         return f"{self.op_name} {dest_out}, {source_out}"
-
-    def bytes(self):
-        bin_str = assembler.assemble_line(self.human())
-        stream = ByteStream(bin_str)
-
-        return [
-            Byte(byte) for byte in stream.read(6)
-        ]
 
 class Type2RegisterInstruction(Instruction):
     size = 2

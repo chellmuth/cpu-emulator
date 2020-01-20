@@ -42,6 +42,7 @@ def reset_app():
 
     program = [
         "ADD ra, 0x10000001",
+        "JMP 0x6",
         "STB ra, 0x50",
         "ADD rb, 0x01000000",
         "ORR ra, 0x10010000",
