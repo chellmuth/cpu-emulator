@@ -42,8 +42,10 @@ def reset_app():
 
     program = [
         "OUT 0x6c000000",
+        "LOD rc, 0xb",
+        "LOD rc, ra",
         "ADD ra, 0x10000001",
-        "AMP 0x1c",
+        "AMP 0x1f",
         "STB ra, 0x50",
         "ADD rb, 0x01000000",
         "NOP",
