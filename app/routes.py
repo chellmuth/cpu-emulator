@@ -119,10 +119,10 @@ def render_emulator():
 
     memory = machine.memory
 
-    columns = 8
+    columns = 10
     memory_view = MemoryView(columns, [
         MemoryRowView(
-            row * columns * 4,
+            Word.from_int(row * columns * 4).hex_str(),
             [
                 memory.read_word((row * columns + column) * 4).hex_str()
                 for column in range(columns)

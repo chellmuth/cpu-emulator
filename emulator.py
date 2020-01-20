@@ -37,6 +37,7 @@ class Machine:
     def __init__(self):
         self.memory = Memory()
         self.registers = [ Word(Byte(0b0), Byte(0b0), Byte(0b0), Byte(0b0)) for _ in Register ]
+        self.registers[Register.sp] = Word.from_int(self.memory.size - 1 - 4)
         self.stdout = [ Byte(72), Byte(101) ]
         self.flags = set()
 

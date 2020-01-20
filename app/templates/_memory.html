@@ -3,13 +3,11 @@
   <table>
     <tr>
       <th>Address</th>
-      {% for _ in range(memory.columns) %}
-        <th></th>
-      {% endfor %}
+      <th align=left colspan={{memory.columns}}>Values</th>
     </tr>
     {% for row in memory.rows %}
       <tr>
-          <td>{{row.address}}</td>
+          <td>{{row.address}}: </td>
           {% for word in row.words %}
             <td>{{word}}</td>
           {% endfor %}
