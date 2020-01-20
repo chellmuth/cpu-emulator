@@ -42,9 +42,12 @@ def reset_app():
 
     machine = Machine()
 
-    instruction = assembler.parse_to_instruction(program[0])
-    for i, byte in enumerate(instruction.bytes()):
-        machine.memory.write(Byte(i), byte)
+    memory_offset = 0
+    for line in program:
+        instruction = assembler.parse_to_instruction(line)
+        for byte in instruction.bytes():
+            machine.memory.write(Byte(memory_offset), byte)
+            memory_offset += 1
 
 reset_app()
 
