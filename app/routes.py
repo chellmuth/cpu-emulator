@@ -74,14 +74,20 @@ def reset_app():
     #     "RET",
     # ]
 
+    # program = [
+    #     "PSH 0x6c000000", # wrong endianness
+    #     "CAL 0x11",
+    #     "POP ra",
+    #     "OUT 0x21000000",
+    #     "AMP 0x70", # arbitrary end
+    #     "OUT 0x6c000000",
+    #     "RET"
+    # ]
+
     program = [
-        "PSH 0x6c000000", # wrong endianness
-        "CAL 0x11",
+        "PSH 0x1",
         "POP ra",
-        "OUT 0x21000000",
-        "AMP 0x70", # arbitrary end
-        "OUT 0x6c000000",
-        "RET"
+        "XOR ra, 0x3"
     ]
 
     machine = Machine()

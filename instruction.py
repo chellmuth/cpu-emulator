@@ -2,6 +2,7 @@ import instruction_base
 import ops.add
 import ops.bitwise_not
 import ops.bitwise_or
+import ops.bitwise_xor
 import ops.call
 import ops.jump
 import ops.load
@@ -14,6 +15,7 @@ def type1_register_factory(op_name, source_register, dest_register):
     cls_lookup = {
         "ADD": ops.add.AddRegisterInstruction,
         "ORR": ops.bitwise_or.BitwiseOrRegisterInstruction,
+        "XOR": ops.bitwise_xor.BitwiseXorRegisterInstruction,
         "STR": ops.store.StoreWordRegisterInstruction,
         "STB": ops.store.StoreByteRegisterInstruction,
         "LOD": ops.load.LoadRegisterInstruction,
@@ -32,6 +34,7 @@ def type1_constant_factory(op_name, dest_register, source_word):
     cls_lookup = {
         "ADD": ops.add.AddConstantInstruction,
         "ORR": ops.bitwise_or.BitwiseOrConstantInstruction,
+        "XOR": ops.bitwise_xor.BitwiseXorConstantInstruction,
         "STR": ops.store.StoreWordConstantInstruction,
         "STB": ops.store.StoreByteConstantInstruction,
         "LOD": ops.load.LoadConstantInstruction,

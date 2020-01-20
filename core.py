@@ -65,6 +65,14 @@ class Word:
             self.byte4 | other.byte4,
         )
 
+    def __xor__(self, other):
+        return Word(
+            self.byte1 ^ other.byte1,
+            self.byte2 ^ other.byte2,
+            self.byte3 ^ other.byte3,
+            self.byte4 ^ other.byte4,
+        )
+
     def hex_str(self, padded=True):
         hex_str = util.pad(self.byte1.hex_str(), 2) \
             + util.pad(self.byte2.hex_str(), 2) \
@@ -134,6 +142,9 @@ class Byte:
 
     def __or__(self, other):
         return Byte(self.int_value | other.int_value)
+
+    def __xor__(self, other):
+        return Byte(self.int_value ^ other.int_value)
 
     def __repr__(self):
         return bin(self.int_value)[2:]
