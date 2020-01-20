@@ -1,5 +1,11 @@
+from core import Word, Byte
+from ops.add import add
+
 class Instruction:
     def human(self):
+        raise Exception("Unimplemented")
+
+    def run(self, machine):
         raise Exception("Unimplemented")
 
 class Type1RegisterInstruction(Instruction):
@@ -103,3 +109,12 @@ class AddRegisterInstruction(Type1RegisterInstruction):
 class AddConstantInstruction(Type1ConstantInstruction):
     def __init__(self, dest_register, source_word):
         super().__init__("ADD", dest_register, source_word)
+
+    def run(self, machine):
+        result, flags = add(
+            machine.registers[self.dest_register].low_byte(),
+            self.source_word.low_byte()
+        )
+
+        machine.registers[self.dest_register] = Word(result, Byte(0b0), Byte(0b0), Byte(0b0))
+        machine.flags = flags

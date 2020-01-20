@@ -11,6 +11,9 @@ class Machine:
     def __repr__(self):
         return "\n".join([str(self.registers), str(self.memory)])
 
+    def run(self, instruction):
+        instruction.run(self)
+
     def add_register(self, dest, src):
         result, flags = add(self.registers[src].low_byte(), self.registers[dest].low_byte())
 
