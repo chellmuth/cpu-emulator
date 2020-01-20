@@ -49,61 +49,10 @@ def assemble(filename):
     assembled_lines = []
 
     with open(filename, "r") as f:
-        lines = f.readlines()
-        for line in lines:
-            split_instruction = line.strip().replace(",", "").split(" ", maxsplit=1)
-            if len(split_instruction) > 1:
-                command, tokens = split_instruction
-            else:
-                command, = split_instruction
-                tokens = None
-
-            instruction = instructions[command]
-            instruction_type, op_code = instruction
-
-            if instruction_type == 1:
-                arg1, arg2 = tokens.split(" ")
-
-                dest = get_register_id(arg1)
-
-                if is_register(arg2):
-                    type_code = "010"
-                    source = get_register_id(arg2)
-                    right_padding = "0" * 6
-                else:
-                    type_code = "011"
-                    source = get_const_binary(arg2)
-                    right_padding = "0" * 3
-
-                assembled_lines.append(
-                    type_code + util.int_to_bits(op_code, 4) + dest + source + right_padding
-                )
-
-            elif instruction_type == 2:
-                arg = tokens
-
-                if is_register(arg):
-                    type_code = "100"
-                    value = get_register_id(arg)
-                    right_padding = "0" * 3
-                else:
-                    type_code = "101"
-                    value = get_const_binary(arg)
-                    right_padding = ""
-
-                assembled_lines.append(
-                    type_code + util.int_to_bits(op_code, 4) + value + right_padding
-                )
-
-            elif instruction_type == 3:
-                arg = tokens
-
-                type_code = "11"
-                right_padding = "0" * 4
-
-                assembled_lines.append(
-                    type_code + util.int_to_bits(op_code, 1) + right_padding
-                )
+        assembled_lines = [
+            assemble_line(line)
+            for line in f.readlines()
+        ]
 
     # print(assembled_lines)
 
@@ -120,6 +69,56 @@ def assemble(filename):
             int_values.append(int_value)
 
         f.write(bytearray(int_values))
+
+def assemble_line(line):
+    split_instruction = line.strip().replace(",", "").split(" ", maxsplit=1)
+    if len(split_instruction) > 1:
+        command, tokens = split_instruction
+    else:
+        command, = split_instruction
+        tokens = None
+
+    instruction = instructions[command]
+    instruction_type, op_code = instruction
+
+    if instruction_type == 1:
+        arg1, arg2 = tokens.split(" ")
+
+        dest = get_register_id(arg1)
+
+        if is_register(arg2):
+            type_code = "010"
+            source = get_register_id(arg2)
+            right_padding = "0" * 6
+        else:
+            type_code = "011"
+            source = get_const_binary(arg2)
+            right_padding = "0" * 3
+
+        return type_code + util.int_to_bits(op_code, 4) + dest + source + right_padding
+
+    elif instruction_type == 2:
+        arg = tokens
+
+        if is_register(arg):
+            type_code = "100"
+            value = get_register_id(arg)
+            right_padding = "0" * 3
+        else:
+            type_code = "101"
+            value = get_const_binary(arg)
+            right_padding = ""
+
+        return type_code + util.int_to_bits(op_code, 4) + value + right_padding
+
+    elif instruction_type == 3:
+        arg = tokens
+
+        type_code = "11"
+        right_padding = "0" * 4
+
+        return type_code + util.int_to_bits(op_code, 1) + right_padding
+
 
 if __name__ == "__main__":
     assemble(sys.argv[1])
