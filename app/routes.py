@@ -43,6 +43,9 @@ def reset_app():
 
     program = [
         "PSH 0x01000001",
+        "ADD ra, 0x12345678",
+        "STR ra, 0x240",
+        "STB ra, 0x268",
         "CAL 0x30",
         "POP rd",
         "OUT 0x6c000000",

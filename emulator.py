@@ -25,7 +25,7 @@ class Memory:
         self.memory[address_word.int_value()] = byte
 
     def write_word(self, address_word, word):
-        address = address.int_value()
+        address = address_word.int_value()
 
         self.memory[address + 0] = word.byte1
         self.memory[address + 1] = word.byte2
@@ -69,8 +69,12 @@ class Machine:
             if register == Register.pc:
                 skip_pc = True
 
-        for address, word in update.memory.items():
-            self.memory.write_byte(address, word.low_byte())
+        for address, value in update.memory.items():
+            if value.size == 1:
+                self.memory.write_byte(address, value)
+            elif value.size == 4:
+                self.memory.write_word(address, value)
+            else: raise ValueError
 
         if update.stdout is not None:
             self.stdout.append(update.stdout)

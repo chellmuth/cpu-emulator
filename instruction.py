@@ -14,6 +14,7 @@ def type1_register_factory(op_name, source_register, dest_register):
     cls_lookup = {
         "ADD": ops.add.AddRegisterInstruction,
         "ORR": ops.bitwise_or.BitwiseOrRegisterInstruction,
+        "STR": ops.store.StoreWordRegisterInstruction,
         "STB": ops.store.StoreByteRegisterInstruction,
         "LOD": ops.load.LoadRegisterInstruction,
     }
@@ -31,6 +32,7 @@ def type1_constant_factory(op_name, dest_register, source_word):
     cls_lookup = {
         "ADD": ops.add.AddConstantInstruction,
         "ORR": ops.bitwise_or.BitwiseOrConstantInstruction,
+        "STR": ops.store.StoreWordConstantInstruction,
         "STB": ops.store.StoreByteConstantInstruction,
         "LOD": ops.load.LoadConstantInstruction,
     }
