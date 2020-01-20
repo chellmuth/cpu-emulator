@@ -63,6 +63,7 @@ def type2_register_factory(op_name, value_register):
         "OUT": ops.out.PrintRegisterInstruction,
         "AMP": ops.jump.JumpAbsoluteRegisterInstruction,
         "ALT": ops.jump.JumpAbsoluteLessThanRegisterInstruction,
+        "ALT": ops.jump.JumpAbsoluteEqualRegisterInstruction,
         "NOT": ops.bitwise_not.BitwiseNotRegisterInstruction,
         "AAL": ops.call.CallAbsoluteRegisterInstruction,
     }
@@ -82,6 +83,7 @@ def type2_constant_factory(op_name, value_word):
         "OUT": ops.out.PrintConstantInstruction,
         "AMP": ops.jump.JumpAbsoluteConstantInstruction,
         "ALT": ops.jump.JumpAbsoluteLessThanConstantInstruction,
+        "AEQ": ops.jump.JumpAbsoluteEqualConstantInstruction,
         "AAL": ops.call.CallAbsoluteConstantInstruction,
     }
 

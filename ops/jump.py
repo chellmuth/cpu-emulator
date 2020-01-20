@@ -150,3 +150,31 @@ class JumpRelativeEqualConstantInstruction(instruction_base.Type2ConstantInstruc
                 Register.pc: updated_pc,
             }
         )
+
+class JumpAbsoluteEqualRegisterInstruction(instruction_base.Type2RegisterInstruction):
+    def __init__(self, value_register):
+        super().__init__("AEQ", value_register)
+
+    def run(self, machine):
+        if Flag.ZF not in machine.flags:
+            return MachineUpdate()
+
+        return MachineUpdate(
+            registers={
+                Register.pc: machine.registers[self.value_register],
+            }
+        )
+
+class JumpAbsoluteEqualConstantInstruction(instruction_base.Type2ConstantInstruction):
+    def __init__(self, value_word):
+        super().__init__("AEQ", value_word)
+
+    def run(self, machine):
+        if Flag.ZF not in machine.flags:
+            return MachineUpdate()
+
+        return MachineUpdate(
+            registers={
+                Register.pc: self.value_word
+            }
+        )
