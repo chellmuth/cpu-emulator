@@ -1,8 +1,8 @@
 import sys
 
+import instruction
 from byte_stream import BitStream
 from core import Register, Word
-from instruction import Type1RegisterInstruction, Type1ConstantInstruction, Type2RegisterInstruction, Type2ConstantInstruction, NopInstruction, RetInstruction
 
 def disassemble(filename):
     stream = BitStream.from_filename(filename)
@@ -79,7 +79,7 @@ def disassemble_instruction(stream):
         skip, = stream.read_int(6)
         assert(skip == 0)
 
-        return Type1RegisterInstruction.factory(
+        return instruction.type1_register_factory(
             op_name, Register(source), Register(dest)
         )
     elif type_code == 0b011:
@@ -93,7 +93,7 @@ def disassemble_instruction(stream):
         skip, = stream.read_int(3)
         assert(skip == 0)
 
-        return Type1ConstantInstruction.factory(
+        return instruction.type1_constant_factory(
             op_name, Register(dest), source_word
         )
     elif type_code == 0b100:
@@ -103,7 +103,7 @@ def disassemble_instruction(stream):
         skip, = stream.read_int(3)
         assert(skip == 0)
 
-        return Type2RegisterInstruction.factory(
+        return instruction.type2_register_factory(
             op_name, Register(value)
         )
 
@@ -112,19 +112,19 @@ def disassemble_instruction(stream):
         value_word = Word.from_int(int(value, 2))
         value_out = value_word.hex_str(padded=False)
 
-        return Type2ConstantInstruction.factory(
+        return instruction.type2_constant_factory(
             op_name, value_word
         )
     elif type_code == 0b110:
         skip, = stream.read_int(4)
         assert(skip == 0)
 
-        return NopInstruction()
+        return instruction.NopInstruction()
     elif type_code == 0b111:
         skip, = stream.read_int(4)
         assert(skip == 0)
 
-        return RetInstruction()
+        return instruction.RetInstruction()
 
     else:
         raise ValueError

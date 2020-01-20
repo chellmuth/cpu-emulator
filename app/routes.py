@@ -20,7 +20,8 @@ def reset_app():
 
     program = [
         "ADD ra, 0x10000000",
-        "ADD ra, 0x20000000",
+        "ADD rb, 0x01000000",
+        "ORR ra, 0x10010000",
         "ADD ra, rb",
         "ADD ra, 0x30000000",
     ]

@@ -1,14 +1,12 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, Set
 
 from core import Byte, Word, Flag, Register
-from ops.add import add
-from ops.bitwise_or import bitwise_or
 
 @dataclass
 class MachineUpdate:
     registers: Dict[Register, Word]
-    flags: Set[Flag]
+    flags: Set[Flag] = field(default_factory=lambda: set())
 
 class Machine:
     def __init__(self):
