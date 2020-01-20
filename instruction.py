@@ -54,9 +54,13 @@ def type2_constant_factory(op_name, value_word):
         return instruction_base.Type2ConstantInstruction(op_name, value_word)
 
 class NopInstruction(instruction_base.Instruction):
+    size = 1
+
     def human(self):
         return "NOP"
 
 class RetInstruction(instruction_base.Instruction):
+    size = 1
+
     def human(self):
         return "RET"

@@ -13,6 +13,8 @@ class Instruction:
         raise Exception("Unimplemented")
 
 class Type1RegisterInstruction(Instruction):
+    size = 3
+
     def __init__(self, op_name, source_register, dest_register):
         self.op_name = op_name
         self.source_register = source_register
@@ -33,6 +35,8 @@ class Type1RegisterInstruction(Instruction):
         ]
 
 class Type1ConstantInstruction(Instruction):
+    size = 6
+
     def __init__(self, op_name, dest_register, source_word):
         self.op_name = op_name
         self.dest_register = dest_register
@@ -53,6 +57,8 @@ class Type1ConstantInstruction(Instruction):
         ]
 
 class Type2RegisterInstruction(Instruction):
+    size = 2
+
     def __init__(self, op_name, value_register):
         self.op_name = op_name
         self.value_register = value_register
@@ -63,6 +69,8 @@ class Type2RegisterInstruction(Instruction):
         return f"{self.op_name} {value_out}"
 
 class Type2ConstantInstruction(Instruction):
+    size = 5
+
     def __init__(self, op_name, value_word):
         self.op_name = op_name
         self.value_word = value_word

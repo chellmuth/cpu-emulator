@@ -52,9 +52,12 @@ class Machine:
         for address, word in update.memory.items():
             self.memory.write(address, word.low_byte())
 
+        self.registers[Register.pc].increment(instruction.size)
+
     def next_instruction(self):
+        base_address = self.registers[Register.pc].int_value()
         bin_str = "".join([
-            self.memory.read_byte(offset).bin_str(padded=True)
+            self.memory.read_byte(base_address + offset).bin_str(padded=True)
             for offset in range(6) # max instruction size
         ])
         stream = BitStream(bin_str)

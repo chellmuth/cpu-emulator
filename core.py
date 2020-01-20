@@ -76,12 +76,19 @@ class Word:
         else:
             return "0x" + util.unpad_hex(hex_str)
 
+    def increment(self, amount):
+        new_word = Word.from_int(self.int_value() + amount)
+        self.byte1 = new_word.byte1
+        self.byte2 = new_word.byte2
+        self.byte3 = new_word.byte3
+        self.byte4 = new_word.byte4
+
     def int_value(self):
         return \
-            self.byte1.int_value << 0 | \
-            self.byte2.int_value << 7 | \
-            self.byte3.int_value << 14 | \
-            self.byte4.int_value << 21
+            self.byte4.int_value << 0 | \
+            self.byte3.int_value << 7 | \
+            self.byte2.int_value << 14 | \
+            self.byte1.int_value << 21
 
     def __repr__(self):
         return "[word=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) + "]"
