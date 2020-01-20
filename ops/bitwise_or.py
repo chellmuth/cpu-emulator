@@ -1,5 +1,5 @@
 import instruction_base
-from emulator import MachineUpdate
+from core import MachineUpdate
 
 class BitwiseOrRegisterInstruction(instruction_base.Type1RegisterInstruction):
     def __init__(self, dest_register, source_register):

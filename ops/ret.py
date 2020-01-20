@@ -1,6 +1,5 @@
 import instruction_base
-from core import Register, Word
-from emulator import MachineUpdate
+from core import MachineUpdate, Register, Word
 
 class RetInstruction(instruction_base.Instruction):
     size = 1

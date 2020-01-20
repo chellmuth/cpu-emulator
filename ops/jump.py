@@ -1,6 +1,5 @@
 import instruction_base
-from core import Register, Word
-from emulator import MachineUpdate
+from core import MachineUpdate, Register, Word
 
 class JumpRelativeRegisterInstruction(instruction_base.Type2RegisterInstruction):
     def __init__(self, value_register):

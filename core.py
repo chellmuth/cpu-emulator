@@ -1,4 +1,6 @@
+from dataclasses import dataclass, field
 from enum import IntEnum
+from typing import Dict, Optional, Set
 
 import util
 
@@ -159,3 +161,10 @@ class Byte:
 
     def __repr__(self):
         return bin(self.int_value)[2:]
+
+@dataclass
+class MachineUpdate:
+    registers: Dict[Register, Word] = field(default_factory=dict)
+    memory: Dict[Word, Word] = field(default_factory=dict)
+    flags: Set[Flag] = field(default_factory=set)
+    stdout: Optional[int] = None

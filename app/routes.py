@@ -5,6 +5,7 @@ from typing import List
 from flask import render_template, redirect
 
 import assembler
+import instruction_helper
 from app import app
 from core import Byte, Word, Register, Flag
 from emulator import Machine
@@ -78,31 +79,31 @@ def reset_app():
     #     "RET",
     # ]
 
-    # program = [
-    #     "PSH 0x6c000000", # wrong endianness
-    #     "CAL 0x11",
-    #     "POP ra",
-    #     "OUT 0x21000000",
-    #     "AMP 0x70", # arbitrary end
-    #     "OUT 0x6c000000",
-    #     "RET"
-    # ]
-
     program = [
-        "PSH 0x1",
+        "PSH 0x6c000000", # wrong endianness
+        "CAL 0x11",
         "POP ra",
-        "XOR ra, 0x3",
-        "AND ra, rb",
-        "XOR ra, 0x2",
-        "NOP",
+        "OUT 0x21000000",
+        "AMP 0x70", # arbitrary end
+        "OUT 0x6c000000",
+        "RET"
     ]
+
+    # program = [
+    #     "PSH 0x1",
+    #     "POP ra",
+    #     "XOR ra, 0x3",
+    #     "AND ra, rb",
+    #     "XOR ra, 0x2",
+    #     "NOP",
+    # ]
 
     machine = Machine()
 
     memory_offset = 0
     for line in program:
         instruction = assembler.parse_to_instruction(line)
-        for byte in instruction.bytes():
+        for byte in instruction_helper.get_bytes(instruction):
             machine.memory.write_byte(Word.from_int(memory_offset), byte)
             memory_offset += 1
 
@@ -144,7 +145,7 @@ def render_emulator():
             DisassembledInstructionView(
                 address == machine.registers[Register.pc].int_value(),
                 hex(address),
-                instruction.bytes_str(),
+                instruction_helper.bytes_str(instruction),
                 instruction.human()
             )
         )

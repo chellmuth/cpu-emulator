@@ -1,5 +1,5 @@
 import instruction_base
-from emulator import MachineUpdate
+from core import MachineUpdate
 
 class NopInstruction(instruction_base.Instruction):
     size = 1

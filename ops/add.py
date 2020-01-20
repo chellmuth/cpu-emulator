@@ -1,6 +1,5 @@
 import instruction_base
-from core import Byte, Flag, Word
-from emulator import MachineUpdate
+from core import Byte, MachineUpdate, Flag, Word
 
 class AddRegisterInstruction(instruction_base.Type1RegisterInstruction):
     def __init__(self, dest_register, source_register):

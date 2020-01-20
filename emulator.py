@@ -1,16 +1,6 @@
-from dataclasses import dataclass, field
-from typing import Dict, Optional, Set
-
 import disassembler
 from byte_stream import BitStream
-from core import Byte, Word, Flag, Register
-
-@dataclass
-class MachineUpdate:
-    registers: Dict[Register, Word] = field(default_factory=dict)
-    memory: Dict[Word, Word] = field(default_factory=dict)
-    flags: Set[Flag] = field(default_factory=set)
-    stdout: Optional[int] = None
+from core import Byte, Flag, MachineUpdate, Register, Word
 
 class Memory:
     size = 500

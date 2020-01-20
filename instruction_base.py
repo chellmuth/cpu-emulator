@@ -1,27 +1,10 @@
 from typing import Optional
 
-import assembler
-from byte_stream import ByteStream
-from core import Byte
-
 class Instruction:
     size: Optional[int] = None
 
     def human(self):
         raise Exception("Unimplemented")
-
-    def bytes(self):
-        bin_str = assembler.assemble_line(self.human())
-        stream = ByteStream(bin_str)
-
-        return [
-            Byte(byte) for byte in stream.read(self.size)
-        ]
-
-    def bytes_str(self):
-        return "".join([
-            byte.hex_str(padded=True) for byte in self.bytes()
-        ])
 
     def run(self, machine):
         raise Exception("Unimplemented")

@@ -1,6 +1,5 @@
 import instruction_base
-from core import Flag
-from emulator import MachineUpdate
+from core import Flag, MachineUpdate
 
 class BitwiseXorRegisterInstruction(instruction_base.Type1RegisterInstruction):
     def __init__(self, dest_register, source_register):
