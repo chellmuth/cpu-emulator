@@ -2,12 +2,18 @@
   Disassembled:
   <table>
     <tr>
+      <th></th>
       <th>Address</th>
       <th>Hex</th>
       <th>Instruction</th>
     </tr>
     {% for instruction in disassembled.instructions %}
       <tr>
+          <td>
+            {% if instruction.current %}
+              *
+            {% endif %}
+          </td>
           <td>{{instruction.address}}</td>
           <td>{{instruction.hex_str}}</td>
           <td>{{instruction.instruction_text}}</td>

@@ -10,6 +10,7 @@ from emulator import Machine
 
 @dataclass
 class DisassembledInstructionView:
+    current: bool
     address: str
     hex_str: str
     instruction_text: str
@@ -89,6 +90,7 @@ def render_emulator():
     for instruction in machine.glob_instructions(0):
         instruction_views.append(
             DisassembledInstructionView(
+                address == machine.registers[Register.pc].int_value(),
                 address,
                 instruction.bytes_str(),
                 instruction.human()
@@ -104,15 +106,17 @@ def render_emulator():
     ]
 
     memory = machine.memory
-    memory_view = MemoryView(2, [
+
+    columns = 2
+    memory_view = MemoryView(columns, [
         MemoryRowView(
-            address * 8,
+            row * columns * 4,
             [
-                memory.read_word(address * 8 + 0).hex_str(),
-                memory.read_word(address * 8 + 4).hex_str(),
+                memory.read_word((row * columns + column) * 4).hex_str()
+                for column in range(columns)
             ]
         )
-        for address in range(memory.size // (2 * 8))
+        for row in range(memory.size // (columns * 4))
     ])
 
     available_actions = set()
