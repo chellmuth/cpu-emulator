@@ -86,3 +86,39 @@ class JumpRelativeLessThanConstantInstruction(instruction_base.Type2ConstantInst
                 Register.pc: updated_pc,
             }
         )
+
+class JumpRelativeEqualRegisterInstruction(instruction_base.Type2RegisterInstruction):
+    def __init__(self, value_register):
+        super().__init__("JEQ", value_register)
+
+    def run(self, machine):
+        if Flag.ZF not in machine.flags:
+            return MachineUpdate()
+
+        current = machine.registers[Register.pc].int_value()
+        offset = machine.registers[self.value_register].int_value()
+        updated_pc = Word.from_int(current + offset + self.size)
+
+        return MachineUpdate(
+            registers={
+                Register.pc: updated_pc,
+            }
+        )
+
+class JumpRelativeEqualConstantInstruction(instruction_base.Type2ConstantInstruction):
+    def __init__(self, value_word):
+        super().__init__("JEQ", value_word)
+
+    def run(self, machine):
+        if Flag.ZF not in machine.flags:
+            return MachineUpdate()
+
+        current = machine.registers[Register.pc].int_value()
+        offset = self.value_word.int_value()
+        updated_pc = Word.from_int(current + offset + self.size)
+
+        return MachineUpdate(
+            registers={
+                Register.pc: updated_pc,
+            }
+        )
