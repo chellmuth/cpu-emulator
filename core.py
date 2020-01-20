@@ -50,6 +50,14 @@ class Word:
     def low_byte(self):
         return self.byte1
 
+    def __hash__(self):
+        return hash((
+            self.byte1,
+            self.byte2,
+            self.byte3,
+            self.byte4
+        ))
+
     def __or__(self, other):
         return Word(
             self.byte1 | other.byte1,
@@ -147,6 +155,9 @@ class Byte:
 
     def __eq__(self, other):
         return self.int_value == other.int_value
+
+    def __hash__(self):
+        return hash(self.int_value)
 
     def __or__(self, other):
         return Byte(self.int_value | other.int_value)
