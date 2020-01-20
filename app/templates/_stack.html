@@ -1,0 +1,23 @@
+<div>
+  Stack:
+  <table>
+    <tr>
+      <th></th>
+      <th>Address</th>
+      <th align=left colspan={{stack.columns}}>Values</th>
+    </tr>
+    {% for row in stack.rows %}
+      <tr>
+          <td>
+            {% if row.current %}
+              *
+            {% endif %}
+          </td>
+          <td>{{row.address}}: </td>
+          {% for word in row.words %}
+            <td>{{word}}</td>
+          {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+</div>

@@ -26,6 +26,17 @@ class RegisterView:
     value: str
 
 @dataclass
+class StackRowView:
+    current: bool
+    address: str
+    words: List[str]
+
+@dataclass
+class StackView:
+    columns: int
+    rows: List[StackRowView]
+
+@dataclass
 class MemoryRowView:
     address: str
     words: List[str]
@@ -65,7 +76,8 @@ def reset_app():
 
     program = [
         "PSH 0x6c000000", # wrong endianness
-        "CAL 0x0f",
+        "CAL 0x11",
+        "POP ra",
         "OUT 0x21000000",
         "AMP 0x70", # arbitrary end
         "OUT 0x6c000000",
@@ -147,6 +159,18 @@ def render_emulator():
         for row in range(math.ceil(memory.size / (columns * 4)))
     ])
 
+    stack_pointer = machine.registers[Register.sp].int_value()
+    stack_view = StackView(1, [
+        StackRowView(
+            row == 0,
+            Word.from_int(stack_pointer + row * 4).hex_str(),
+            [
+                memory.read_word(stack_pointer + row * 4).hex_str()
+            ]
+        )
+        for row in range(((memory.size - 1) - stack_pointer) // 4)
+    ])
+
     stdout_view = "".join([ chr(char.int_value) for char in machine.stdout ])
 
     return render_template(
@@ -154,6 +178,7 @@ def render_emulator():
         instruction=instruction_view,
         registers=registers_view,
         disassembled=disassembled_view,
+        stack=stack_view,
         memory=memory_view,
         stdout=stdout_view,
         available_actions=available_actions
