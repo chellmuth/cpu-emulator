@@ -46,9 +46,7 @@ class BitStream:
     @classmethod
     def from_filename(cls, filename):
         real_bytes = open(filename, "rb").read()
-        return cls(real_bytes)
 
-    def __init__(self, real_bytes):
         # from bytes -> list of binary-encoding strings [ "11010", "0111", ... ]
         bits_strs = [
             bin(byte)[2:] for byte in real_bytes
@@ -58,7 +56,12 @@ class BitStream:
         byte_strs = [ util.pad(bits_str, 8) for bits_str in bits_strs ]
 
         # one big sequence of binary
-        self.bin_str = "".join(byte_strs)
+        bin_str = "".join(byte_strs)
+
+        return cls(bin_str)
+
+    def __init__(self, bin_str):
+        self.bin_str = bin_str
         # print(self.bin_str)
 
     def is_empty(self):

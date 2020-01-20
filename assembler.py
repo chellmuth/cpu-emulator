@@ -1,6 +1,8 @@
 import sys
 
+import disassembler
 import util
+from byte_stream import BitStream
 from core import Register
 from hex_parser import parse_hex_str
 
@@ -119,6 +121,11 @@ def assemble_line(line):
 
         return type_code + util.int_to_bits(op_code, 1) + right_padding
 
+def parse_to_instruction(text):
+    bin_str = assemble_line(text)
+    stream = BitStream(bin_str)
+    instruction = disassembler.disassemble_instruction(stream)
+    return instruction
 
 if __name__ == "__main__":
     assemble(sys.argv[1])

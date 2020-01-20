@@ -8,7 +8,7 @@ def disassemble(filename):
     stream = BitStream.from_filename(filename)
 
     while not stream.is_empty():
-        instruction = _disassemble_instruction(stream)
+        instruction = disassemble_instruction(stream)
         if not instruction: break
 
         print(instruction.human())
@@ -51,7 +51,7 @@ op_names = {
     0b101: type_2_op_names,
 }
 
-def _disassemble_instruction(stream):
+def disassemble_instruction(stream):
     type_code, = stream.read_int(3)
 
     if stream.is_empty():
@@ -128,8 +128,6 @@ def _disassemble_instruction(stream):
 
     else:
         raise ValueError
-
-
 
 if __name__ == "__main__":
     disassemble(sys.argv[1])
