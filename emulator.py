@@ -1,6 +1,14 @@
+from dataclasses import dataclass
+from typing import Dict, Set
+
 from core import Byte, Word, Flag, Register
 from ops.add import add
 from ops.bitwise_or import bitwise_or
+
+@dataclass
+class MachineUpdate:
+    registers: Dict[Register, Word]
+    flags: Set[Flag]
 
 class Machine:
     def __init__(self):
@@ -12,7 +20,11 @@ class Machine:
         return "\n".join([str(self.registers), str(self.memory)])
 
     def run(self, instruction):
-        instruction.run(self)
+        update = instruction.run(self)
+
+        self.flags = update.flags
+        for register, word in update.registers.items():
+            self.registers[register] = word
 
     def add_register(self, dest, src):
         result, flags = add(self.registers[src].low_byte(), self.registers[dest].low_byte())

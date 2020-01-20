@@ -1,4 +1,5 @@
 from core import Word, Byte
+from emulator import MachineUpdate
 from ops.add import add
 
 class Instruction:
@@ -116,5 +117,9 @@ class AddConstantInstruction(Type1ConstantInstruction):
             self.source_word.low_byte()
         )
 
-        machine.registers[self.dest_register] = Word(result, Byte(0b0), Byte(0b0), Byte(0b0))
-        machine.flags = flags
+        return MachineUpdate(
+            registers={
+                self.dest_register: Word(result, Byte(0b0), Byte(0b0), Byte(0b0))
+            },
+            flags=flags
+        )
