@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, Set
+from typing import Dict, Optional, Set
 
 import disassembler
 from byte_stream import BitStream
@@ -10,7 +10,7 @@ class MachineUpdate:
     registers: Dict[Register, Word] = field(default_factory=dict)
     memory: Dict[Word, Word] = field(default_factory=dict)
     flags: Set[Flag] = field(default_factory=set)
-    stdout: int = None
+    stdout: Optional[int] = None
 
 class Memory:
     size = 500

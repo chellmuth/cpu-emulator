@@ -1,9 +1,11 @@
+from typing import Optional
+
 import assembler
 from byte_stream import ByteStream
 from core import Byte
 
 class Instruction:
-    size = None
+    size: Optional[int] = None
 
     def human(self):
         raise Exception("Unimplemented")
