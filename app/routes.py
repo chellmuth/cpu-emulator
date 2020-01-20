@@ -95,7 +95,6 @@ def render_emulator():
 
     available_actions = set()
     if instruction:
-        print(instruction)
         available_actions.add("step")
 
     address = 0

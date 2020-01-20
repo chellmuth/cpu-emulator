@@ -63,7 +63,6 @@ class Machine:
 
         if update.stdout is not None:
             self.stdout.append(update.stdout)
-            print(self.stdout)
 
         if not skip_pc:
             self.registers[Register.pc].increment(instruction.size)
