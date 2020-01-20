@@ -43,10 +43,11 @@ def reset_app():
     program = [
         "OUT 0x6c000000",
         "ADD ra, 0x10000001",
-        "JMP 0x6",
+        "AMP 0x1c",
         "STB ra, 0x50",
         "ADD rb, 0x01000000",
         "NOP",
+        "JMP 0x6",
         "ORR ra, 0x10010000",
         "ADD ra, rb",
         "ADD ra, 0x30000000",
@@ -99,7 +100,7 @@ def render_emulator():
         instruction_views.append(
             DisassembledInstructionView(
                 address == machine.registers[Register.pc].int_value(),
-                address,
+                hex(address),
                 instruction.bytes_str(),
                 instruction.human()
             )

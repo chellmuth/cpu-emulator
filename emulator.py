@@ -48,8 +48,12 @@ class Machine:
 
         self.flags = update.flags
 
+        skip_pc = False
         for register, word in update.registers.items():
             self.registers[register] = word
+
+            if register == Register.pc:
+                skip_pc = True
 
         for address, word in update.memory.items():
             self.memory.write(address, word.low_byte())
@@ -58,7 +62,8 @@ class Machine:
             self.stdout.append(update.stdout)
             print(self.stdout)
 
-        self.registers[Register.pc].increment(instruction.size)
+        if not skip_pc:
+            self.registers[Register.pc].increment(instruction.size)
 
     def next_instruction(self):
         base_address = self.registers[Register.pc].int_value()

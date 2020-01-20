@@ -39,8 +39,9 @@ def type1_constant_factory(op_name, dest_register, source_word):
 
 def type2_register_factory(op_name, value_register):
     cls_lookup = {
-        "JMP": ops.jump.JumpRegisterInstruction,
+        "JMP": ops.jump.JumpRelativeRegisterInstruction,
         "OUT": ops.out.PrintRegisterInstruction,
+        "AMP": ops.jump.JumpAbsoluteRegisterInstruction,
     }
 
     if op_name in cls_lookup:
@@ -50,8 +51,9 @@ def type2_register_factory(op_name, value_register):
 
 def type2_constant_factory(op_name, value_word):
     cls_lookup = {
-        "JMP": ops.jump.JumpConstantInstruction,
+        "JMP": ops.jump.JumpRelativeConstantInstruction,
         "OUT": ops.out.PrintConstantInstruction,
+        "AMP": ops.jump.JumpAbsoluteConstantInstruction,
     }
 
     if op_name in cls_lookup:
