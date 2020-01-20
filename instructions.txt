@@ -22,7 +22,7 @@ INP [ ]
 AMP [X]
 ALT [ ]
 AEQ [ ]
-AAL [ ]
+AAL [X]
 RET [X]
 NOP [X]
 

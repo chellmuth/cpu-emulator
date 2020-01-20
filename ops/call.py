@@ -36,3 +36,39 @@ class CallConstantInstruction(instruction_base.Type2ConstantInstruction):
                 Register.sp: machine.registers[Register.sp].incremented(-4)
             }
         )
+
+class CallAbsoluteRegisterInstruction(instruction_base.Type2RegisterInstruction):
+    def __init__(self, value_register):
+        super().__init__("AAL", value_register)
+
+    def run(self, machine):
+        return_pointer = machine.registers[Register.pc].incremented(self.size)
+        updated_pc = self.value_register
+
+        return MachineUpdate(
+            memory={
+                machine.registers[Register.sp]: return_pointer
+            },
+            registers={
+                Register.pc: updated_pc,
+                Register.sp: machine.registers[Register.sp].incremented(-4)
+            }
+        )
+
+class CallAbsoluteConstantInstruction(instruction_base.Type2ConstantInstruction):
+    def __init__(self, value_word):
+        super().__init__("AAL", value_word)
+
+    def run(self, machine):
+        return_pointer = machine.registers[Register.pc].incremented(self.size)
+        updated_pc = self.value_word
+
+        return MachineUpdate(
+            memory={
+                machine.registers[Register.sp]: return_pointer
+            },
+            registers={
+                Register.pc: updated_pc,
+                Register.sp: machine.registers[Register.sp].incremented(-4)
+            }
+        )

@@ -61,6 +61,7 @@ def type2_register_factory(op_name, value_register):
         "OUT": ops.out.PrintRegisterInstruction,
         "AMP": ops.jump.JumpAbsoluteRegisterInstruction,
         "NOT": ops.bitwise_not.BitwiseNotRegisterInstruction,
+        "AAL": ops.call.CallAbsoluteRegisterInstruction,
     }
 
     if op_name in cls_lookup:
@@ -75,6 +76,7 @@ def type2_constant_factory(op_name, value_word):
         "PSH": ops.push.PushConstantInstruction,
         "OUT": ops.out.PrintConstantInstruction,
         "AMP": ops.jump.JumpAbsoluteConstantInstruction,
+        "AAL": ops.call.CallAbsoluteConstantInstruction,
     }
 
     if op_name in cls_lookup:

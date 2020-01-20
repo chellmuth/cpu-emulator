@@ -81,7 +81,7 @@ def reset_app():
 
     program = [
         "PSH 0x6c",
-        "CAL 0x11",
+        "AAL 0x16",
         "POP ra",
         "OUT 0x21",
         "AMP 0x70", # arbitrary end
