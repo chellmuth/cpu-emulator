@@ -65,6 +65,14 @@ class Word:
             self.byte4 | other.byte4,
         )
 
+    def __and__(self, other):
+        return Word(
+            self.byte1 & other.byte1,
+            self.byte2 & other.byte2,
+            self.byte3 & other.byte3,
+            self.byte4 & other.byte4,
+        )
+
     def __xor__(self, other):
         return Word(
             self.byte1 ^ other.byte1,
@@ -142,6 +150,9 @@ class Byte:
 
     def __or__(self, other):
         return Byte(self.int_value | other.int_value)
+
+    def __and__(self, other):
+        return Byte(self.int_value & other.int_value)
 
     def __xor__(self, other):
         return Byte(self.int_value ^ other.int_value)

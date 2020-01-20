@@ -92,6 +92,7 @@ def reset_app():
         "PSH 0x1",
         "POP ra",
         "XOR ra, 0x3",
+        "AND ra, rb",
         "XOR ra, 0x2",
         "NOP",
     ]
