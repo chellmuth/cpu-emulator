@@ -1,9 +1,8 @@
 import util
 
 class ByteStream:
-    def __init__(self, filename, reverse_bits=False):
-        self.reverse_bits = reverse_bits
-
+    @classmethod
+    def from_filename(cls, filename, reverse_bits=False):
         real_bytes = open(filename, "rb").read()
 
         # from bytes -> list of binary-encoding strings [ "11010", "0111", ... ]
@@ -15,8 +14,14 @@ class ByteStream:
         byte_strs = [ util.pad(bits_str, 8) for bits_str in bits_strs ]
 
         # one big sequence of binary
-        self.bin_str = "".join(byte_strs)
+        bin_str = "".join(byte_strs)
 
+        return ByteStream(bin_str, reverse_bits=reverse_bits)
+
+    def __init__(self, bin_str, reverse_bits=False):
+        self.reverse_bits = reverse_bits
+
+        self.bin_str = bin_str
         # print(self.bin_str)
 
     def is_empty(self):

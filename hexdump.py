@@ -3,7 +3,7 @@ import sys
 from byte_stream import ByteStream
 
 def hexdump(filename):
-    stream = ByteStream(filename)
+    stream = ByteStream.from_filename(filename)
 
     while not stream.is_empty():
         byte, = stream.read(1)

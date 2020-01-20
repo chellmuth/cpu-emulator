@@ -11,13 +11,13 @@ class MachineUpdate:
 
 class Memory:
     def __init__(self):
-        self.size = 100
+        self.size = 500
         self.memory = [
             Byte(0b0) for _ in range(self.size)
         ]
 
     def write(self, address, value):
-        self.memory[address.int_value()] = value
+        self.memory[address.int_value] = value
 
     def read_byte(self, address):
         return self.memory[address]

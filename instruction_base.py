@@ -1,5 +1,12 @@
+import assembler
+from byte_stream import ByteStream
+from core import Byte
+
 class Instruction:
     def human(self):
+        raise Exception("Unimplemented")
+
+    def words(self):
         raise Exception("Unimplemented")
 
     def run(self, machine):
@@ -17,6 +24,14 @@ class Type1RegisterInstruction(Instruction):
 
         return f"{self.op_name} {source_out}, {dest_out}"
 
+    def bytes(self):
+        bin_str = assembler.assemble_line(self.human())
+        stream = ByteStream(bin_str)
+
+        return [
+            Byte(byte) for byte in stream.read(3)
+        ]
+
 class Type1ConstantInstruction(Instruction):
     def __init__(self, op_name, dest_register, source_word):
         self.op_name = op_name
@@ -28,6 +43,14 @@ class Type1ConstantInstruction(Instruction):
         dest_out = self.dest_register.name
 
         return f"{self.op_name} {dest_out}, {source_out}"
+
+    def bytes(self):
+        bin_str = assembler.assemble_line(self.human())
+        stream = ByteStream(bin_str)
+
+        return [
+            Byte(byte) for byte in stream.read(6)
+        ]
 
 class Type2RegisterInstruction(Instruction):
     def __init__(self, op_name, value_register):

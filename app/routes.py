@@ -5,6 +5,7 @@ from flask import render_template, redirect
 
 import assembler
 from app import app
+from core import Byte
 from emulator import Machine
 
 @dataclass
@@ -40,6 +41,10 @@ def reset_app():
     ]
 
     machine = Machine()
+
+    instruction = assembler.parse_to_instruction(program[0])
+    for i, byte in enumerate(instruction.bytes()):
+        machine.memory.write(Byte(i), byte)
 
 reset_app()
 

@@ -1,3 +1,5 @@
+ADD ra, 0x10000000
+STB ra, 0x0a000000
 RET
 NOP
 JMP rb
