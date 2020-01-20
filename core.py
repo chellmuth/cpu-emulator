@@ -30,24 +30,15 @@ class Word:
     size = 4
 
     @classmethod
-    def from_int(cls, integer, endian="big"):
+    def from_int(cls, integer):
         mask = 0b1111111
 
-        if endian == "little":
-            return cls(
-                Byte(integer >> 0 & mask),
-                Byte(integer >> 7 & mask),
-                Byte(integer >> 14 & mask),
-                Byte(integer >> 21 & mask),
-            )
-        elif endian == "big":
-            return cls(
-                Byte(integer >> 21 & mask),
-                Byte(integer >> 14 & mask),
-                Byte(integer >> 7 & mask),
-                Byte(integer >> 0 & mask),
-            )
-        else: raise ValueError
+        return cls(
+            Byte(integer >> 0 & mask),
+            Byte(integer >> 7 & mask),
+            Byte(integer >> 14 & mask),
+            Byte(integer >> 21 & mask),
+        )
 
     # little-endian, byte1 is smallest
     def __init__(self, byte1, byte2, byte3, byte4):
@@ -84,10 +75,10 @@ class Word:
         )
 
     def hex_str(self, padded=True):
-        hex_str = util.pad(self.byte1.hex_str(), 2) \
-            + util.pad(self.byte2.hex_str(), 2) \
+        hex_str = util.pad(self.byte4.hex_str(), 2) \
             + util.pad(self.byte3.hex_str(), 2) \
-            + util.pad(self.byte4.hex_str(), 2)
+            + util.pad(self.byte2.hex_str(), 2) \
+            + util.pad(self.byte1.hex_str(), 2)
 
         if padded:
             return "0x" + hex_str
@@ -107,10 +98,10 @@ class Word:
 
     def int_value(self):
         return \
-            self.byte4.int_value << 0 | \
-            self.byte3.int_value << 7 | \
-            self.byte2.int_value << 14 | \
-            self.byte1.int_value << 21
+            self.byte1.int_value << 0 | \
+            self.byte2.int_value << 7 | \
+            self.byte3.int_value << 14 | \
+            self.byte4.int_value << 21
 
     def __invert__(self):
         return Word(

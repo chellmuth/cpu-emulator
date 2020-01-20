@@ -10,10 +10,10 @@ def disassemble(filename):
     stream = BitStream.from_filename(filename)
 
     while not stream.is_empty():
-        instruction = disassemble_instruction(stream)
-        if not instruction: break
+        next_instruction = disassemble_instruction(stream)
+        if not next_instruction: break
 
-        print(instruction.human())
+        print(next_instruction.human())
 
 type_1_op_names = {
     0: "ADD",

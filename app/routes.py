@@ -80,12 +80,12 @@ def reset_app():
     # ]
 
     program = [
-        "PSH 0x6c000000", # wrong endianness
+        "PSH 0x6c",
         "CAL 0x11",
         "POP ra",
-        "OUT 0x21000000",
+        "OUT 0x21",
         "AMP 0x70", # arbitrary end
-        "OUT 0x6c000000",
+        "OUT 0x6c",
         "RET"
     ]
 
