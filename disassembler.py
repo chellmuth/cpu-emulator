@@ -2,12 +2,16 @@ import sys
 
 from byte_stream import BitStream
 from core import Register, Word
+from instruction import Type1RegisterInstruction, Type1ConstantInstruction, Type2RegisterInstruction, Type2ConstantInstruction, NopInstruction, RetInstruction
 
 def disassemble(filename):
     stream = BitStream(filename)
 
     while not stream.is_empty():
-        _disassemble_instruction(stream)
+        instruction = _disassemble_instruction(stream)
+        if not instruction: break
+
+        print(instruction.human())
 
 type_1_op_names = {
     0: "ADD",
@@ -75,7 +79,9 @@ def _disassemble_instruction(stream):
         skip, = stream.read_int(6)
         assert(skip == 0)
 
-        print(f"{op_name} {dest_out}, {source_out}")
+        return Type1RegisterInstruction.factory(
+            op_name, Register(source), Register(dest)
+        )
     elif type_code == 0b011:
         dest, = stream.read_int(4)
         dest_out = Register(dest).name
@@ -87,7 +93,9 @@ def _disassemble_instruction(stream):
         skip, = stream.read_int(3)
         assert(skip == 0)
 
-        print(f"{op_name} {dest_out}, {source_out}")
+        return Type1ConstantInstruction.factory(
+            op_name, Register(dest), source_word
+        )
     elif type_code == 0b100:
         value, = stream.read_int(4)
         value_out = Register(value).name
@@ -95,18 +103,29 @@ def _disassemble_instruction(stream):
         skip, = stream.read_int(3)
         assert(skip == 0)
 
-        print(f"{op_name} {value_out}")
+        return Type2RegisterInstruction.factory(
+            op_name, Register(value)
+        )
+
     elif type_code == 0b101:
         value, = stream.read_str(28)
         value_word = Word.from_int(int(value, 2))
         value_out = value_word.hex_str(padded=False)
 
-        print(f"{op_name} {value_out}")
-    elif type_code == 0b110 or type_code == 0b111:
+        return Type2ConstantInstruction.factory(
+            op_name, value_word
+        )
+    elif type_code == 0b110:
         skip, = stream.read_int(4)
         assert(skip == 0)
 
-        print(f"{op_name}")
+        return NopInstruction()
+    elif type_code == 0b111:
+        skip, = stream.read_int(4)
+        assert(skip == 0)
+
+        return RetInstruction()
+
     else:
         raise ValueError
 
