@@ -12,11 +12,12 @@ import ops.pop
 import ops.push
 import ops.store
 import ops.subtract
+import ops.test
 
 def type1_register_factory(op_name, source_register, dest_register):
     cls_lookup = {
         "ADD": ops.add.AddRegisterInstruction,
-        "SUB": ops.add.SubtractRegisterInstruction,
+        "SUB": ops.subtract.SubtractRegisterInstruction,
         "TST": ops.test.TestRegisterInstruction,
         "AND": ops.bitwise_and.BitwiseAndRegisterInstruction,
         "ORR": ops.bitwise_or.BitwiseOrRegisterInstruction,
@@ -38,7 +39,7 @@ def type1_register_factory(op_name, source_register, dest_register):
 def type1_constant_factory(op_name, dest_register, source_word):
     cls_lookup = {
         "ADD": ops.add.AddConstantInstruction,
-        "SUB": ops.add.SubtractConstantInstruction,
+        "SUB": ops.subtract.SubtractConstantInstruction,
         "TST": ops.test.TestConstantInstruction,
         "AND": ops.bitwise_and.BitwiseAndConstantInstruction,
         "ORR": ops.bitwise_or.BitwiseOrConstantInstruction,
