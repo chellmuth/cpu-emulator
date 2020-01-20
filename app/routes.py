@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from flask import render_template
+from flask import render_template, redirect
 
 import assembler
 from app import app
@@ -11,15 +11,23 @@ class RegisterView:
     name: str
     value: str
 
-program = [
-    "ADD ra, 0x10000000",
-    "ADD ra, 0x20000000",
-    "ADD ra, rb",
-    "ADD ra, 0x30000000",
-]
-print(program)
+machine = None
+program = []
 
-machine = Machine()
+def reset_app():
+    global program
+    global machine
+
+    program = [
+        "ADD ra, 0x10000000",
+        "ADD ra, 0x20000000",
+        "ADD ra, rb",
+        "ADD ra, 0x30000000",
+    ]
+
+    machine = Machine()
+
+reset_app()
 
 @app.route('/')
 def show():
@@ -33,6 +41,12 @@ def update():
     machine.run(instruction)
 
     return render_emulator()
+
+@app.route('/reset', methods=["POST"])
+def reset():
+    reset_app()
+
+    return redirect("/")
 
 def render_emulator():
     if not program:

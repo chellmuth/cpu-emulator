@@ -5,7 +5,14 @@
 <body>
 {% include "_instruction.html" %}
 {% include "_registers.html" %}
-<form action="/" method="POST">
-  <button type="submit">Step</button>
-</form>
+<div>
+  <form action="/" method="POST">
+    <button type="submit">Step</button>
+  </form>
+</div>
+<div>
+  <br /><br /><br /><br /><br /><br />
+  <form action="/reset" method="POST">
+    <button type="submit">Reset</button>
+  </form>
 </body>
