@@ -73,9 +73,3 @@ def type2_constant_factory(op_name, value_word):
         return cls_lookup[op_name](value_word)
     else:
         return instruction_base.Type2ConstantInstruction(op_name, value_word)
-
-class RetInstruction(instruction_base.Instruction):
-    size = 1
-
-    def human(self):
-        return "RET"

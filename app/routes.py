@@ -56,6 +56,7 @@ def reset_app():
         "NOT rc",
         "ADD ra, rb",
         "ADD ra, 0x30000000",
+        "RET",
     ]
 
     machine = Machine()

@@ -2,6 +2,7 @@ import sys
 
 import instruction
 import ops.nop
+import ops.ret
 from byte_stream import BitStream
 from core import Register, Word
 
@@ -125,7 +126,7 @@ def disassemble_instruction(stream, strict=False):
         skip, = stream.read_int(4)
         assert(skip == 0)
 
-        return instruction.RetInstruction()
+        return ops.ret.RetInstruction()
     elif type_code == 0b111:
         skip, = stream.read_int(4)
         assert(skip == 0)
