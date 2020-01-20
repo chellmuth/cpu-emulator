@@ -65,7 +65,7 @@ def reset_app():
     for line in program:
         instruction = assembler.parse_to_instruction(line)
         for byte in instruction.bytes():
-            machine.memory.write(Word.from_int(memory_offset), byte)
+            machine.memory.write_byte(Word.from_int(memory_offset), byte)
             memory_offset += 1
 
 reset_app()

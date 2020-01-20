@@ -21,8 +21,16 @@ class Memory:
             Byte(0b0) for _ in range(self.size)
         ]
 
-    def write(self, address, value):
-        self.memory[address.int_value()] = value
+    def write_byte(self, address_word, byte):
+        self.memory[address_word.int_value()] = byte
+
+    def write_word(self, address_word, word):
+        address = address.int_value()
+
+        self.memory[address + 0] = word.byte1
+        self.memory[address + 1] = word.byte2
+        self.memory[address + 2] = word.byte3
+        self.memory[address + 3] = word.byte4
 
     def read_byte(self, address):
         return self.memory[address]
@@ -38,7 +46,10 @@ class Memory:
 class Machine:
     def __init__(self):
         self.memory = Memory()
-        self.registers = [ Word(Byte(0b0), Byte(0b0), Byte(0b0), Byte(0b0)) for _ in Register ]
+        self.registers = [
+            Word(Byte(0b0), Byte(0b0), Byte(0b0), Byte(0b0))
+            for _ in Register
+        ]
         self.registers[Register.sp] = Word.from_int(self.memory.size - 1 - 4)
         self.stdout = [ Byte(72), Byte(101) ]
         self.flags = set()
@@ -59,7 +70,7 @@ class Machine:
                 skip_pc = True
 
         for address, word in update.memory.items():
-            self.memory.write(address, word.low_byte())
+            self.memory.write_byte(address, word.low_byte())
 
         if update.stdout is not None:
             self.stdout.append(update.stdout)
