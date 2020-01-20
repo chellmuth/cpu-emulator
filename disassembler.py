@@ -1,6 +1,7 @@
 import sys
 
 import instruction
+import ops.nop
 from byte_stream import BitStream
 from core import Register, Word
 
@@ -54,15 +55,17 @@ op_names = {
 def disassemble_instruction(stream, strict=False):
     type_code, = stream.read_int(3)
 
-    if stream.is_empty():
-        # Our file was padded with 7 bits to complete the byte
-        # Made it look like we had an instruction when we don't
-        return
-
     if type_code in op_names:
+        if stream.is_empty():
+            # Our file was padded with 7 bits to complete the byte
+            # Made it look like we had an instruction when we don't
+            return
+
         op_code, = stream.read_int(4)
         op_name = op_names[type_code][op_code]
     elif type_code == 0b110:
+        # todo: will crash if these are the last bits of a stream
+        # and we got here due to padding
         op_name = "RET"
     elif type_code == 0b111:
         op_name = "NOP"
@@ -122,12 +125,12 @@ def disassemble_instruction(stream, strict=False):
         skip, = stream.read_int(4)
         assert(skip == 0)
 
-        return instruction.NopInstruction()
+        return instruction.RetInstruction()
     elif type_code == 0b111:
         skip, = stream.read_int(4)
         assert(skip == 0)
 
-        return instruction.RetInstruction()
+        return ops.nop.NopInstruction()
 
     else:
         if strict:
