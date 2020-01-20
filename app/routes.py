@@ -107,7 +107,7 @@ def render_emulator():
 
     memory = machine.memory
 
-    columns = 2
+    columns = 8
     memory_view = MemoryView(columns, [
         MemoryRowView(
             row * columns * 4,
