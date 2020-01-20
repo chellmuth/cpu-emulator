@@ -41,26 +41,35 @@ machine = None
 def reset_app():
     global machine
 
+    # program = [
+    #     "PSH 0x1234568",
+    #     "POP rb",
+    #     "ADD ra, 0x11223344",
+    #     "STR ra, 0x240",
+    #     "STB ra, 0x268",
+    #     "CAL 0x30",
+    #     "POP rd",
+    #     "OUT 0x6c000000",
+    #     "LOD rc, 0xb",
+    #     "LOD rc, ra",
+    #     "ADD ra, 0x10000001",
+    #     "STB ra, 0x50",
+    #     "ADD rb, 0x01000000",
+    #     "NOP",
+    #     "ORR ra, 0x10010000",
+    #     "NOT rc",
+    #     "ADD ra, rb",
+    #     "ADD ra, 0x30000000",
+    #     "RET",
+    # ]
+
     program = [
-        "PSH 0x1234568",
-        "POP rb",
-        "ADD ra, 0x11223344",
-        "STR ra, 0x240",
-        "STB ra, 0x268",
-        "CAL 0x30",
-        "POP rd",
+        "PSH 0x6c000000", # wrong endianness
+        "CAL 0x0f",
+        "OUT 0x21000000",
+        "AMP 0x70", # arbitrary end
         "OUT 0x6c000000",
-        "LOD rc, 0xb",
-        "LOD rc, ra",
-        "ADD ra, 0x10000001",
-        "STB ra, 0x50",
-        "ADD rb, 0x01000000",
-        "NOP",
-        "ORR ra, 0x10010000",
-        "NOT rc",
-        "ADD ra, rb",
-        "ADD ra, 0x30000000",
-        "RET",
+        "RET"
     ]
 
     machine = Machine()

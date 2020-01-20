@@ -9,12 +9,12 @@ class RetInstruction(instruction_base.Instruction):
         return "RET"
 
     def run(self, machine):
-        pop_address = machine.registers[Register.sp].incremented(4)
-        updated_pc = machine.memory.read_word(machine.registers[Register.sp].int_value())
+        updated_sp_address = machine.registers[Register.sp].incremented(4)
+        popped_pc = machine.memory.read_word(updated_sp_address.int_value())
 
         return MachineUpdate(
             registers={
-                Register.pc: updated_pc,
-                Register.sp: pop_address
+                Register.pc: popped_pc,
+                Register.sp: updated_sp_address
             }
         )

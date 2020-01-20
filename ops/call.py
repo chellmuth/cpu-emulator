@@ -7,7 +7,7 @@ class CallRegisterInstruction(instruction_base.Type2RegisterInstruction):
         super().__init__("CAL", value_register)
 
     def run(self, machine):
-        return_pointer = machine.registers[Register.sp].incremented(self.size)
+        return_pointer = machine.registers[Register.pc].incremented(self.size)
         increment_amount = machine.registers[self.value_register]
 
         return MachineUpdate(
@@ -25,7 +25,7 @@ class CallConstantInstruction(instruction_base.Type2ConstantInstruction):
         super().__init__("CAL", value_word)
 
     def run(self, machine):
-        return_pointer = machine.registers[Register.sp].incremented(self.size)
+        return_pointer = machine.registers[Register.pc].incremented(self.size)
         increment_amount = self.value_word.int_value()
 
         return MachineUpdate(
