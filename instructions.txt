@@ -1,5 +1,5 @@
 ADD [?]
-SUB [ ]
+SUB [?]
 MUL [ ]
 DIV [ ]
 CMP [ ]
