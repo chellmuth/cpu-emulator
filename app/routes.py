@@ -21,18 +21,28 @@ print(program)
 machine = Machine()
 
 @app.route('/')
-def hello_world():
+def show():
+    return render_emulator()
+
+@app.route('/', methods=["POST"])
+def update():
     instruction_text = program.pop(0).strip()
     instruction = assembler.parse_to_instruction(instruction_text)
 
     machine.run(instruction)
 
+    return render_emulator()
+
+def render_emulator():
+    if not program:
+        instruction_view = "--"
+    else:
+        instruction_view = program[0].strip()
+
     registers_view = [
         RegisterView("ra", machine.registers[0].hex_str() ),
         RegisterView("rb", machine.registers[1].hex_str() ),
     ]
-
-    instruction_view = instruction.human()
 
     return render_template(
         "emulator.html",
