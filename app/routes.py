@@ -42,8 +42,9 @@ def reset_app():
     global machine
 
     program = [
-        "PSH 0x01000001",
-        "ADD ra, 0x12345678",
+        "PSH 0x1234568",
+        "POP rb",
+        "ADD ra, 0x11223344",
         "STR ra, 0x240",
         "STB ra, 0x268",
         "CAL 0x30",

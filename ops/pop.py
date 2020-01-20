@@ -8,7 +8,7 @@ class PopRegisterInstruction(instruction_base.Type2RegisterInstruction):
 
     def run(self, machine):
         pop_address = machine.registers[Register.sp].incremented(4)
-        payload = machine.memory.read_word(pop_location.int_value())
+        payload = machine.memory.read_word(pop_address.int_value())
 
         return MachineUpdate(
             registers={
