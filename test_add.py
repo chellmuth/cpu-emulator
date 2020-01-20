@@ -35,3 +35,10 @@ def test_unsigned_overflow_when_7th_bits_match():
     assert(word.int_value() == 0)
     assert(flags == set([Flag.OF, Flag.CF]))
 
+def test_full_word_addition_with_carry_across_bytes():
+    word, flags = add_word(
+        Word(Byte(0b1000000), Byte(0b0), Byte(0b1), Byte(0b0011)),
+        Word(Byte(0b1000000), Byte(0b0), Byte(0b1), Byte(0b1000))
+    )
+    assert(word == Word(Byte(0b0), Byte(0b1), Byte(0b10), Byte(0b1011)))
+    assert(not flags)
