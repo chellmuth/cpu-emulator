@@ -1,0 +1,14 @@
+<div>
+  Memory:
+  <table>
+    <tr>
+      <th>Address</th><th>Value</th>
+    </tr>
+    {% for address, value in memory %}
+      <tr>
+          <td>{{address}}</td>
+          <td>{{value}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>

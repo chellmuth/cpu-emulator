@@ -1,11 +1,13 @@
 import instruction_base
 import ops.add
 import ops.bitwise_or
+import ops.store
 
 def type1_register_factory(op_name, source_register, dest_register):
     cls_lookup = {
         "ADD": ops.add.AddRegisterInstruction,
         "ORR": ops.bitwise_or.BitwiseOrRegisterInstruction,
+        "STB": ops.store.StoreByteRegisterInstruction,
     }
 
     if op_name in cls_lookup:
@@ -21,6 +23,7 @@ def type1_constant_factory(op_name, dest_register, source_word):
     cls_lookup = {
         "ADD": ops.add.AddConstantInstruction,
         "ORR": ops.bitwise_or.BitwiseOrConstantInstruction,
+        "STB": ops.store.StoreByteConstantInstruction,
     }
 
     if op_name in cls_lookup:

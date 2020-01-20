@@ -5,8 +5,9 @@ from core import Byte, Word, Flag, Register
 
 @dataclass
 class MachineUpdate:
-    registers: Dict[Register, Word]
-    flags: Set[Flag] = field(default_factory=lambda: set())
+    registers: Dict[Register, Word] = field(default_factory=dict)
+    memory: Dict[Word, Word] = field(default_factory=dict)
+    flags: Set[Flag] = field(default_factory=set)
 
 class Machine:
     def __init__(self):
@@ -21,5 +22,9 @@ class Machine:
         update = instruction.run(self)
 
         self.flags = update.flags
+
         for register, word in update.registers.items():
             self.registers[register] = word
+
+        for address, word in update.memory.items():
+            self.memory[address] = word.low_byte()
