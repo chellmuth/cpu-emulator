@@ -49,7 +49,7 @@ class ByteStream:
 
 class BitStream:
     @classmethod
-    def from_filename(cls, filename):
+    def from_filename(cls, filename, flip_bit_endianness=False):
         real_bytes = open(filename, "rb").read()
 
         # from bytes -> list of binary-encoding strings [ "11010", "0111", ... ]
@@ -63,7 +63,15 @@ class BitStream:
         # one big sequence of binary
         bin_str = "".join(byte_strs)
 
-        return cls(bin_str)
+        if not flip_bit_endianness:
+            return cls(bin_str)
+
+        reversed_bin_str = ""
+        while len(bin_str) >= 7:
+            reversed_bin_str = reversed_bin_str + bin_str[:7][::-1]
+            bin_str = bin_str[7:]
+
+        return cls(reversed_bin_str)
 
     def __init__(self, bin_str):
         self.bin_str = bin_str
@@ -86,3 +94,9 @@ class BitStream:
         self.bin_str = self.bin_str[bit_count:]
 
         return bit_str,
+
+    def cat(self):
+        while not self.is_empty():
+            int_value, = self.read_int(7)
+            print(chr(int_value), end="")
+        print()
