@@ -1,7 +1,36 @@
 import sys
 
+import util
+
 def pad(bits_str):
     return ("00000000" + bits_str)[-8:]
+
+def uncat(byte_string):
+    bin_str = ""
+    for char in byte_string:
+        int_value = int(char)
+        char_bin_str = bin(int_value)[2:]
+        reversed_bin_str = char_bin_str[::-1]
+
+        bin_str += reversed_bin_str
+
+    contents = bin_str
+
+    with open("orc.o", "wb") as f:
+        contents = util.fill_to_real_byte(contents)
+        byte_count = len(contents) // 8
+
+        int_values = []
+        for i in range(byte_count):
+            byte_str = contents[i*8 : i*8 + 8]
+            int_value = int(byte_str, 2)
+            int_values.append(int_value)
+
+        f.write(bytearray(int_values))
+
+    # from byte_stream import BitStream
+    # bs = BitStream(bin_str)
+    # bs.cat()
 
 def cat(filename):
     with open(filename, "rb") as f:
