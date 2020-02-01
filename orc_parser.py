@@ -135,8 +135,8 @@ def read_symbol_table(stream):
     return symbols
 
 def read_relocation(stream):
-    section = read_word(stream)
     offset = read_word(stream)
+    section = read_word(stream)
     symbol = read_text(stream)
     plus = read_word(stream)
 
@@ -219,6 +219,23 @@ def read_segment_table(stream):
 
     return segments
 
+def cat_section(orc, section, offset=0):
+    base = section.offset.int_value()
+
+    program = ""
+    for i in range(section.size.int_value() - offset):
+        b = orc.data[base + offset + i]
+        program += b.bin_str(padded=True)
+
+    bs = BitStream(program)
+
+    bs.cat()
+
+def cat_symbol(orc, symbol):
+    print("cat symbol:", symbol)
+    section = orc.section_table[symbol.section.int_value() - 1]
+    cat_section(orc, section, offset=symbol.offset.int_value())
+
 def parse(filename):
     stream = BitStream.from_filename(filename, flip_bit_endianness=True)
 
@@ -250,38 +267,7 @@ def parse(filename):
         data
     )
 
-
-    # breakpoint()
-    # section = [s for s in orc.section_table if s.name == 'instructions'][0]
-    # base = section.offset.int_value()
-
-    # symbol = orc.symbol_table[1]
-
-    # section = [s for s in orc.section_table if s.name == 'text'][0]
-    # base = section.offset.int_value()
-
-    # program = ""
-    # for i in range(section.size.int_value()):
-    #     b1 = orc.data[base + i]
-    #     program += b1.bin_str(padded=True)
-
-    # bs = BitStream(program)
-
-    # bs.cat()
-
-    # bs = BitStream(program)
-
-    # print(bs.bin_str)
-    # print(hex(int("0b"+bs.bin_str, 2)))
-
-    # instruction = disassembler.disassemble_instruction(bs)
-    # print(instruction.human())
-
-    # bs.read_int(7)
-    # instruction = disassembler.disassemble_instruction(bs)
-    # print(instruction.human())
-
-    # breakpoint()
+    breakpoint()
 
 if __name__ == "__main__":
     parse(sys.argv[1])

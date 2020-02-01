@@ -55,7 +55,7 @@ op_names = {
 
 def disassemble_instruction(stream, strict=False):
     type_code, = stream.read_int(3)
-    print("type code", bin(type_code))
+    # print("type code", bin(type_code))
 
     if type_code in op_names:
         if stream.is_empty():
@@ -64,7 +64,7 @@ def disassemble_instruction(stream, strict=False):
             return
 
         op_code, = stream.read_int(4)
-        print("op code:", op_code)
+        # print("op code:", op_code)
         op_name = op_names[type_code][op_code]
     elif type_code == 0b110:
         # todo: will crash if these are the last bits of a stream
@@ -95,12 +95,12 @@ def disassemble_instruction(stream, strict=False):
         dest, = stream.read_int(4)
         dest_out = Register(dest).name
 
+        skip, = stream.read_int(3)
+        assert(skip == 0)
+
         source, = stream.read_str(28)
         source_word = Word.from_int(int(source, 2))
         source_out = source_word.hex_str(padded=False)
-
-        skip, = stream.read_int(3)
-        assert(skip == 0)
 
         return instruction.type1_constant_factory(
             op_name, Register(dest), source_word
