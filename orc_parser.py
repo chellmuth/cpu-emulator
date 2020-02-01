@@ -54,10 +54,10 @@ class SegmentList:
 
 @dataclass
 class Orc:
-    symbol_table: SymbolList
-    relocation_table: RelocationList
-    section_table: SectionList
-    segment_table: SegmentList
+    symbols: SymbolList
+    relocations: RelocationList
+    sections: SectionList
+    segments: SegmentList
     data: str
 
 def read_all(stream):
