@@ -102,10 +102,10 @@ def read_text(stream):
 
 def read_symbol(stream):
     name = read_text(stream)
-    print("name:", name)
+    # print("name:", name)
 
     is_defined = read_bool(stream)
-    print("is defined:", is_defined)
+    # print("is defined:", is_defined)
 
     section = None
     offset = None
@@ -113,8 +113,8 @@ def read_symbol(stream):
         section = read_word(stream)
         offset = read_word(stream)
 
-        print("section:", section)
-        print("offset:", offset)
+        # print("section:", section)
+        # print("offset:", offset)
 
     return Symbol(
         name,
@@ -125,11 +125,11 @@ def read_symbol(stream):
 
 def read_symbol_table(stream):
     num_entries = read_word(stream)
-    print("num_entries:", num_entries, num_entries.int_value())
+    # print("num_entries:", num_entries, num_entries.int_value())
 
     symbols = []
     for i in range(num_entries.int_value()):
-        print(f"symbol: {i}")
+        # print(f"symbol: {i}")
         symbols.append(read_symbol(stream))
 
     return symbols
@@ -140,10 +140,10 @@ def read_relocation(stream):
     symbol = read_text(stream)
     plus = read_word(stream)
 
-    print("section:", section)
-    print("offset:", offset)
-    print("symbol:", symbol)
-    print("plus:", plus)
+    # print("section:", section)
+    # print("offset:", offset)
+    # print("symbol:", symbol)
+    # print("plus:", plus)
 
     return Relocation(
         section,
@@ -154,7 +154,7 @@ def read_relocation(stream):
 
 def read_relocation_table(stream):
     num_entries = read_word(stream).int_value()
-    print("relocation entries:", num_entries)
+    # print("relocation entries:", num_entries)
 
     relocations = []
     for _ in range(num_entries):
@@ -179,7 +179,7 @@ def read_section(stream):
 
 def read_section_table(stream):
     num_entries = read_word(stream).int_value()
-    print("section entries:", num_entries)
+    # print("section entries:", num_entries)
 
     sections = []
     for _ in range(num_entries):
@@ -192,15 +192,15 @@ def read_segment(stream):
     offset = read_word(stream)
     base = read_word(stream)
 
-    print("name:", name)
-    print("offset:", offset)
-    print("base:", base)
+    # print("name:", name)
+    # print("offset:", offset)
+    # print("base:", base)
 
     permissions = read_byte(stream)
     # print("permissions:", permissions.hex_str())
 
     segment_type = read_byte(stream)
-    print("segment type:", segment_type.hex_str())
+    # print("segment type:", segment_type.hex_str())
 
     return Segment(
         name,
@@ -232,7 +232,7 @@ def cat_section(orc, section, offset=0):
     bs.cat()
 
 def cat_symbol(orc, symbol):
-    print("cat symbol:", symbol)
+    # print("cat symbol:", symbol)
     section = orc.section_table[symbol.section.int_value() - 1]
     cat_section(orc, section, offset=symbol.offset.int_value())
 
@@ -245,12 +245,12 @@ def parse(filename):
     filetype, = stream.read_int(7)
     has_entry_point = read_bool(stream)
 
-    print(filetype)
-    print(has_entry_point)
+    # print(filetype)
+    # print(has_entry_point)
 
     if has_entry_point == 1:
         entry_point = read_word(stream)
-        print("entry point:", entry_point, entry_point.hex_str(), entry_point.int_value())
+        # print("entry point:", entry_point, entry_point.hex_str(), entry_point.int_value())
 
     symbol_table = read_symbol_table(stream)
     relocation_table = read_relocation_table(stream)
@@ -267,7 +267,8 @@ def parse(filename):
         data
     )
 
-    breakpoint()
+    return orc
 
 if __name__ == "__main__":
-    parse(sys.argv[1])
+    orc = parse(sys.argv[1])
+    breakpoint()
