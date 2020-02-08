@@ -237,7 +237,7 @@ def cat_symbol(orc, symbol):
     cat_section(orc, section, offset=symbol.offset.int_value())
 
 def parse(filename):
-    stream = BitStream.from_filename(filename, flip_bit_endianness=True)
+    stream = BitStream.from_filename(filename, flip_bit_endianness=False)
 
     orc_header = read_text(stream)
     assert(orc_header == "orc")
