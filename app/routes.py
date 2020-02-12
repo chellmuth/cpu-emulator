@@ -119,7 +119,7 @@ def render_emulator():
         instruction_views.append(
             DisassembledInstructionView(
                 address == machine.registers[Register.pc].int_value(),
-                hex(address),
+                Word.from_int(address).hex_str(padded=True),
                 instruction_helper.bytes_str(instruction),
                 instruction.human()
             )

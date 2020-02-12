@@ -96,10 +96,12 @@ class Word:
             self.byte4 == other.byte4
 
     def hex_str(self, padded=True):
-        hex_str = util.pad(self.byte1.hex_str(), 2) \
-            + util.pad(self.byte2.hex_str(), 2) \
-            + util.pad(self.byte3.hex_str(), 2) \
-            + util.pad(self.byte4.hex_str(), 2)
+        hex_str = "".join([
+            byte.hex_str(padded=padded)
+            for byte in [
+                self.byte1, self.byte2, self.byte3, self.byte4
+            ]
+        ])
 
         if padded:
             return "0x" + hex_str
@@ -150,7 +152,7 @@ class Byte:
 
     def hex_str(self, padded=False):
         if padded:
-            return util.pad(hex(self.int_value)[2:], 2)
+            return util.pad_left(hex(self.int_value)[2:], 2)
 
         return hex(self.int_value)[2:]
 
