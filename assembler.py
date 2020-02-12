@@ -10,7 +10,7 @@ def is_register(arg):
     return arg.startswith("r")
 
 def get_register_id(register_name):
-    return util.pad(bin(Register[register_name])[2:], 4)
+    return util.pad_left(bin(Register[register_name])[2:], 4)
 
 def get_const_binary(hex_str, length=28):
     return util.pad_right(parse_hex_str(hex_str), length)

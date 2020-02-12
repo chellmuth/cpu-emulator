@@ -3,7 +3,7 @@ from byte_stream import BitStream
 from core import Byte, Flag, MachineUpdate, Register, Word
 
 class Memory:
-    size = 1000
+    size = 2000
     def __init__(self):
         assert self.size % 4 == 0
 

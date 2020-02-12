@@ -1,5 +1,6 @@
 import sys
 
+import hex_parser
 import instruction
 import ops
 import ops.nop
@@ -22,6 +23,12 @@ op_names = {
     0b100: ops.type_2_op_names,
     0b101: ops.type_2_op_names,
 }
+
+def disassemble_hex(hex_str):
+    bin_str = hex_parser.parse_hex_str(hex_str)
+    instruction = disassemble_instruction(BitStream(bin_str))
+    if instruction:
+        print(instruction.human())
 
 def disassemble_instruction(stream, strict=False):
     if stream.is_empty(): return
@@ -112,4 +119,6 @@ def disassemble_instruction(stream, strict=False):
             return
 
 if __name__ == "__main__":
-    disassemble(sys.argv[1])
+    # disassemble(sys.argv[1])
+    disassemble_hex("0x4808")
+    disassemble_hex("0x4840")

@@ -29,5 +29,18 @@ def run(filename):
     # print("".join([ str(char) for char in machine.stdout ]))
     print("".join([ chr(char.int_value) for char in machine.stdout ]))
 
+    # pc_value = machine.registers[Register.pc].int_value() - 20
+    # for i in range(40):
+    #     machine.registers[Register.pc] = Word.from_int(pc_value + i)
+    #     try:
+    #         instruction = machine.next_instruction()
+    #         if instruction:
+    #             print(i - 20, instruction.human())
+    #     except AssertionError:
+    #         pass
+
+
+
+
 if __name__ == "__main__":
     run()
