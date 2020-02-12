@@ -11,7 +11,7 @@ class ByteStream:
         ]
 
         # left-pad up to a full byte "11010" -> "00011010"
-        byte_strs = [ util.pad(bits_str, 8) for bits_str in bits_strs ]
+        byte_strs = [ util.pad_left(bits_str, 8) for bits_str in bits_strs ]
 
         # one big sequence of binary
         bin_str = "".join(byte_strs)
@@ -58,7 +58,7 @@ class BitStream:
         ]
 
         # left-pad up to a full byte "11010" -> "00011010"
-        byte_strs = [ util.pad(bits_str, 8) for bits_str in bits_strs ]
+        byte_strs = [ util.pad_left(bits_str, 8) for bits_str in bits_strs ]
 
         # one big sequence of binary
         bin_str = "".join(byte_strs)
