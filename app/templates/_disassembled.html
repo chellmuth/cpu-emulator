@@ -4,6 +4,7 @@
     <tr>
       <th></th>
       <th>Address</th>
+      <th>Debug</th>
       <th>Hex</th>
       <th>Instruction</th>
     </tr>
@@ -17,6 +18,7 @@
             {% endif %}
           </td>
           <td>{{instruction.address}}</td>
+          <td>{{instruction.debug_str}}</td>
           <td>{{instruction.hex_str}}</td>
           <td>{{instruction.instruction_text}}</td>
       </tr>

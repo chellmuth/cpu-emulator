@@ -15,6 +15,7 @@ from emulator import Machine
 class DisassembledInstructionView:
     current: bool
     address: str
+    debug_str: str
     hex_str: str
     instruction_text: str
 
@@ -120,6 +121,7 @@ def render_emulator():
             DisassembledInstructionView(
                 address == machine.registers[Register.pc].int_value(),
                 Word.from_int(address).hex_str(padded=True),
+                instruction.debug_str(),
                 instruction_helper.bytes_str(instruction),
                 instruction.human()
             )
@@ -135,7 +137,7 @@ def render_emulator():
 
     memory = machine.memory
 
-    columns = 10
+    columns = 1
     memory_view = MemoryView(columns, [
         MemoryRowView(
             Word.from_int(row * columns * 4).hex_str(),

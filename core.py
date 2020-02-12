@@ -106,7 +106,8 @@ class Word:
         if padded:
             return "0x" + hex_str
         else:
-            return "0x" + util.unpad_hex(hex_str)
+            raise ValueError
+            # return "0x" + util.unpad_hex(hex_str)
 
     def increment(self, amount):
         new_word = Word.from_int(self.int_value() + amount)

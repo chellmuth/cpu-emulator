@@ -1,5 +1,7 @@
 import util
 
+from core import Byte
+
 class ByteStream:
     @classmethod
     def from_filename(cls, filename, reverse_bits=False):
@@ -86,6 +88,15 @@ class BitStream:
         self.bin_str = self.bin_str[bit_count:]
 
         return bit_str,
+
+    def read_bytes(self, byte_count):
+        byte_list = []
+
+        for i in range(byte_count):
+            int_value, = self.read_int(7)
+            byte_list.append(Byte(int_value))
+
+        return byte_list
 
     def cat(self):
         while not self.is_empty():

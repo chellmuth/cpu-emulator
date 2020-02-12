@@ -11,7 +11,6 @@ def get_bytes(instruction):
     ]
 
 def bytes_str(instruction):
-    return "".join([
+    return "-".join([
         byte.hex_str(padded=True) for byte in get_bytes(instruction)
     ])
-

@@ -15,7 +15,7 @@ def fill_to_real_byte(bits_str):
     return bits_str + ("0" * count )
 
 def int_to_bits(int_value, length):
-    return pad(bin(int_value)[2:], length)
+    return pad_left(bin(int_value)[2:], length)
 
-def unpad_hex(hex_str):
-    return hex(int(hex_str, 16))[2:]
+# def unpad_hex(hex_str):
+#     return hex(int(hex_str, 16))[2:]
