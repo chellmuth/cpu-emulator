@@ -9,7 +9,7 @@ class Instruction:
         raise Exception("Unimplemented")
 
     def debug_str(self):
-        return "HI"
+        return "--"
 
     def run(self, machine):
         raise Exception("Unimplemented")
