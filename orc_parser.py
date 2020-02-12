@@ -55,6 +55,7 @@ class SegmentList:
 
 @dataclass
 class Orc:
+    entry_point: Optional[Word]
     symbols: SymbolList
     relocations: RelocationList
     sections: SectionList
@@ -254,6 +255,8 @@ def parse(filename):
     if has_entry_point == 1:
         entry_point = read_word(stream)
         # print("entry point:", entry_point, entry_point.hex_str(), entry_point.int_value())
+    else:
+        entry_point = None
 
     symbol_table = read_symbol_table(stream)
     relocation_table = read_relocation_table(stream)
@@ -263,6 +266,7 @@ def parse(filename):
     data = read_all(stream)
 
     orc = Orc(
+        entry_point,
         symbol_table,
         relocation_table,
         section_table,
