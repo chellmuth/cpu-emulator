@@ -146,7 +146,7 @@ class Byte:
 
     def bin_str(self, padded=False):
         if padded:
-            return util.pad(bin(self.int_value)[2:], 7)
+            return util.pad_left(bin(self.int_value)[2:], 7)
 
         return bin(self.int_value)[2:]
 
