@@ -56,6 +56,14 @@ class Word:
     def high_byte(self):
         return self.byte4
 
+    def update_low_byte(self, byte):
+        return Word(
+            byte,
+            self.byte2,
+            self.byte3,
+            self.byte4
+        )
+
     def __hash__(self):
         return hash((
             self.byte1,

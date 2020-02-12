@@ -5,6 +5,7 @@ import ops.bitwise_not
 import ops.bitwise_or
 import ops.bitwise_xor
 import ops.call
+import ops.input_op
 import ops.jump
 import ops.load
 import ops.out
@@ -67,6 +68,7 @@ def type2_register_factory(op_name, value_register):
         "PSH": ops.push.PushRegisterInstruction,
         "POP": ops.pop.PopRegisterInstruction,
         "OUT": ops.out.PrintRegisterInstruction,
+        "INP": ops.input_op.InputRegisterInstruction,
         "AMP": ops.jump.JumpAbsoluteRegisterInstruction,
         "ALT": ops.jump.JumpAbsoluteLessThanRegisterInstruction,
         "ALT": ops.jump.JumpAbsoluteEqualRegisterInstruction,
@@ -87,6 +89,7 @@ def type2_constant_factory(op_name, value_word):
         "CAL": ops.call.CallConstantInstruction,
         "PSH": ops.push.PushConstantInstruction,
         "OUT": ops.out.PrintConstantInstruction,
+        "INP": ops.input_op.InputConstantInstruction,
         "AMP": ops.jump.JumpAbsoluteConstantInstruction,
         "ALT": ops.jump.JumpAbsoluteLessThanConstantInstruction,
         "AEQ": ops.jump.JumpAbsoluteEqualConstantInstruction,
