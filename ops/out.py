@@ -6,7 +6,7 @@ class PrintRegisterInstruction(instruction_base.Type2RegisterInstruction):
         super().__init__("OUT", value_register)
 
     def run(self, machine):
-        char = machine.registers[self.value_register].high_byte()
+        char = machine.registers[self.value_register].low_byte()
 
         return MachineUpdate(stdout=char)
 
@@ -15,6 +15,6 @@ class PrintConstantInstruction(instruction_base.Type2ConstantInstruction):
         super().__init__("OUT", value_word)
 
     def run(self, machine):
-        char = self.value_word.high_byte()
+        char = self.value_word.low_byte()
 
         return MachineUpdate(stdout=char)

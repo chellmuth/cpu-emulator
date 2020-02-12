@@ -180,24 +180,3 @@ def render_emulator():
         stdout=stdout_view,
         available_actions=available_actions
     )
-
-# machine = Machine()
-
-# orc = orc_parser.parse("chall2.exe")
-# segment = orc.segments[1]
-# base = segment.base.int_value()
-# offset = segment.offset.int_value()
-
-# data = orc.data
-
-# for i in range(segment.size.int_value()):
-#     machine.memory.write_byte(Word.from_int(i), data[offset + i])
-
-# instruction = machine.next_instruction()
-# while instruction:
-#     machine.run(instruction)
-#     instruction = machine.next_instruction()
-
-# print("".join([ str(char) for char in machine.stdout ]))
-# print("".join([ chr(char.int_value) for char in machine.stdout ]))
-# breakpoint()
