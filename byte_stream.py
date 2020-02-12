@@ -1,5 +1,7 @@
 import util
 
+from core import Byte
+
 class ByteStream:
     @classmethod
     def from_filename(cls, filename, reverse_bits=False):
@@ -11,7 +13,7 @@ class ByteStream:
         ]
 
         # left-pad up to a full byte "11010" -> "00011010"
-        byte_strs = [ util.pad(bits_str, 8) for bits_str in bits_strs ]
+        byte_strs = [ util.pad_left(bits_str, 8) for bits_str in bits_strs ]
 
         # one big sequence of binary
         bin_str = "".join(byte_strs)
@@ -49,7 +51,7 @@ class ByteStream:
 
 class BitStream:
     @classmethod
-    def from_filename(cls, filename, flip_bit_endianness=False):
+    def from_filename(cls, filename):
         real_bytes = open(filename, "rb").read()
 
         # from bytes -> list of binary-encoding strings [ "11010", "0111", ... ]
@@ -58,30 +60,14 @@ class BitStream:
         ]
 
         # left-pad up to a full byte "11010" -> "00011010"
-        byte_strs = [ util.pad(bits_str, 8) for bits_str in bits_strs ]
+        byte_strs = [ util.pad_left(bits_str, 8) for bits_str in bits_strs ]
 
         # one big sequence of binary
         bin_str = "".join(byte_strs)
 
-        return cls(bin_str, flip_bit_endianness)
-        # if not flip_bit_endianness:
-        #     return cls(bin_str)
+        return cls(bin_str)
 
-        # reversed_bin_str = ""
-        # while len(bin_str) >= 7:
-        #     reversed_bin_str = reversed_bin_str + bin_str[:7][::-1]
-        #     bin_str = bin_str[7:]
-
-        # return cls(reversed_bin_str)
-
-    def __init__(self, bin_str, flip_bit_endianness=False):
-        if flip_bit_endianness:
-            reversed_bin_str = ""
-            while len(bin_str) >= 7:
-                reversed_bin_str = reversed_bin_str + bin_str[:7][::-1]
-                bin_str = bin_str[7:]
-            bin_str = reversed_bin_str
-
+    def __init__(self, bin_str):
         self.bin_str = bin_str
         # print(self.bin_str)
 
@@ -102,6 +88,15 @@ class BitStream:
         self.bin_str = self.bin_str[bit_count:]
 
         return bit_str,
+
+    def read_bytes(self, byte_count):
+        byte_list = []
+
+        for i in range(byte_count):
+            int_value, = self.read_int(7)
+            byte_list.append(Byte(int_value))
+
+        return byte_list
 
     def cat(self):
         while not self.is_empty():

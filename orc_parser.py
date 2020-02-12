@@ -45,6 +45,7 @@ class Segment:
     name: str
     offset: Word
     base: Word
+    size: Word
     permissions: Byte
     _type: Byte
 
@@ -54,6 +55,7 @@ class SegmentList:
 
 @dataclass
 class Orc:
+    entry_point: Optional[Word]
     symbols: SymbolList
     relocations: RelocationList
     sections: SectionList
@@ -191,6 +193,7 @@ def read_segment(stream):
     name = read_text(stream)
     offset = read_word(stream)
     base = read_word(stream)
+    size = read_word(stream)
 
     # print("name:", name)
     # print("offset:", offset)
@@ -206,6 +209,7 @@ def read_segment(stream):
         name,
         offset,
         base,
+        size,
         permissions,
         segment_type
     )
@@ -237,7 +241,7 @@ def cat_symbol(orc, symbol):
     cat_section(orc, section, offset=symbol.offset.int_value())
 
 def parse(filename):
-    stream = BitStream.from_filename(filename, flip_bit_endianness=True)
+    stream = BitStream.from_filename(filename)
 
     orc_header = read_text(stream)
     assert(orc_header == "orc")
@@ -251,6 +255,8 @@ def parse(filename):
     if has_entry_point == 1:
         entry_point = read_word(stream)
         # print("entry point:", entry_point, entry_point.hex_str(), entry_point.int_value())
+    else:
+        entry_point = None
 
     symbol_table = read_symbol_table(stream)
     relocation_table = read_relocation_table(stream)
@@ -260,6 +266,7 @@ def parse(filename):
     data = read_all(stream)
 
     orc = Orc(
+        entry_point,
         symbol_table,
         relocation_table,
         section_table,

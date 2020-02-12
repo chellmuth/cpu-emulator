@@ -6,6 +6,7 @@ from flask import render_template, redirect
 
 import assembler
 import instruction_helper
+import orc_parser
 from app import app
 from core import Byte, Word, Register, Flag
 from emulator import Machine
@@ -14,6 +15,7 @@ from emulator import Machine
 class DisassembledInstructionView:
     current: bool
     address: str
+    debug_str: str
     hex_str: str
     instruction_text: str
 
@@ -57,55 +59,20 @@ machine = None
 def reset_app():
     global machine
 
-    # program = [
-    #     "PSH 0x1234568",
-    #     "POP rb",
-    #     "ADD ra, 0x11223344",
-    #     "STR ra, 0x240",
-    #     "STB ra, 0x268",
-    #     "CAL 0x30",
-    #     "POP rd",
-    #     "OUT 0x6c000000",
-    #     "LOD rc, 0xb",
-    #     "LOD rc, ra",
-    #     "ADD ra, 0x10000001",
-    #     "STB ra, 0x50",
-    #     "ADD rb, 0x01000000",
-    #     "NOP",
-    #     "ORR ra, 0x10010000",
-    #     "NOT rc",
-    #     "ADD ra, rb",
-    #     "ADD ra, 0x30000000",
-    #     "RET",
-    # ]
-
-    program = [
-        "PSH 0x6c",
-        "AAL 0x16",
-        "POP ra",
-        "OUT 0x21",
-        "AMP 0x70", # arbitrary end
-        "OUT 0x6c",
-        "RET"
-    ]
-
-    # program = [
-    #     "PSH 0x1",
-    #     "POP ra",
-    #     "XOR ra, 0x3",
-    #     "AND ra, rb",
-    #     "XOR ra, 0x2",
-    #     "NOP",
-    # ]
-
     machine = Machine()
 
-    memory_offset = 0
-    for line in program:
-        instruction = assembler.parse_to_instruction(line)
-        for byte in instruction_helper.get_bytes(instruction):
-            machine.memory.write_byte(Word.from_int(memory_offset), byte)
-            memory_offset += 1
+    orc = orc_parser.parse("chall2.exe")
+    segment = orc.segments[1]
+
+    base = segment.base.int_value()
+    offset = segment.offset.int_value()
+
+    data = orc.data
+
+    for i in range(segment.size.int_value()):
+        machine.memory.write_byte(Word.from_int(base + i), data[offset + i])
+
+    machine.registers[Register.pc] = Word.from_int(base)
 
 reset_app()
 
@@ -117,6 +84,15 @@ def show():
 def update():
     instruction = machine.next_instruction()
     machine.run(instruction)
+
+    return render_emulator()
+
+@app.route('/run', methods=["POST"])
+def run():
+    instruction = machine.next_instruction()
+    while instruction:
+        machine.run(instruction)
+        instruction = machine.next_instruction()
 
     return render_emulator()
 
@@ -138,13 +114,14 @@ def render_emulator():
     if instruction:
         available_actions.add("step")
 
-    address = 0
+    address = machine.registers[Register.pc].int_value() # todo: look backwards
     instruction_views = []
-    for instruction in machine.glob_instructions(0):
+    for instruction in machine.glob_instructions():
         instruction_views.append(
             DisassembledInstructionView(
                 address == machine.registers[Register.pc].int_value(),
-                hex(address),
+                Word.from_int(address).hex_str(padded=True),
+                instruction.debug_str(),
                 instruction_helper.bytes_str(instruction),
                 instruction.human()
             )
@@ -160,7 +137,7 @@ def render_emulator():
 
     memory = machine.memory
 
-    columns = 10
+    columns = 1
     memory_view = MemoryView(columns, [
         MemoryRowView(
             Word.from_int(row * columns * 4).hex_str(),

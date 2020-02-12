@@ -10,10 +10,10 @@ def is_register(arg):
     return arg.startswith("r")
 
 def get_register_id(register_name):
-    return util.pad(bin(Register[register_name])[2:], 4)
+    return util.pad_left(bin(Register[register_name])[2:], 4)
 
 def get_const_binary(hex_str, length=28):
-    return util.pad(parse_hex_str(hex_str), length)
+    return util.pad_right(parse_hex_str(hex_str), length)
 
 instructions = {
     "ADD": (1, 0),
@@ -92,12 +92,14 @@ def assemble_line(line):
             type_code = "010"
             source = get_register_id(arg2)
             right_padding = "0" * 6
+
+            return type_code + util.int_to_bits(op_code, 4) + dest + source + right_padding
         else:
             type_code = "011"
             source = get_const_binary(arg2)
             right_padding = "0" * 3
 
-        return type_code + util.int_to_bits(op_code, 4) + dest + source + right_padding
+            return type_code + util.int_to_bits(op_code, 4) + dest + right_padding + source
 
     elif instruction_type == 2:
         arg = tokens

@@ -2,7 +2,9 @@ from pathlib import Path
 
 import click
 
+import disassembler
 import orc_parser
+from byte_stream import BitStream
 
 @click.group()
 def cli():
@@ -60,6 +62,26 @@ def segments(orc_path):
 
     for i, segment in enumerate(orc.segments):
         print(i, segment)
+
+@cli.command()
+@click.argument("orc_path", type=Path)
+@click.argument("segment_index", type=int)
+def disassemble(orc_path, segment_index):
+    orc = orc_parser.parse(orc_path)
+    segment = orc.segments[segment_index]
+
+    base = segment.offset.int_value()
+    program = ""
+    for i in range(segment.size.int_value()):
+        b1 = orc.data[base + i]
+        program += b1.bin_str(padded=True)
+
+    bs = BitStream(program)
+    instruction = disassembler.disassemble_instruction(bs)
+    while instruction:
+        print(instruction.human())
+        instruction = disassembler.disassemble_instruction(bs)
+    
 
 if __name__ == "__main__":
     cli()

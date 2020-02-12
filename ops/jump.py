@@ -175,6 +175,6 @@ class JumpAbsoluteEqualConstantInstruction(instruction_base.Type2ConstantInstruc
 
         return MachineUpdate(
             registers={
-                Register.pc: self.value_word
+                Register.pc: self.value_word.incremented(13)
             }
         )

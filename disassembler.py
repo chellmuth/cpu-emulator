@@ -1,6 +1,8 @@
 import sys
 
+import hex_parser
 import instruction
+import ops
 import ops.nop
 import ops.ret
 from byte_stream import BitStream
@@ -15,45 +17,22 @@ def disassemble(filename):
 
         print(next_instruction.human())
 
-type_1_op_names = {
-    0: "ADD",
-    1: "SUB",
-    2: "MUL",
-    3: "DIV",
-    4: "CMP",
-    5: "TST",
-    6: "AND",
-    7: "ORR",
-    8: "XOR",
-    9: "STR",
-    10: "STB",
-    11: "LOD",
-}
-
-type_2_op_names = {
-    0: "JMP",
-    1: "JLT",
-    2: "JEQ",
-    3: "CAL",
-    4: "PSH",
-    5: "POP",
-    6: "NOT",
-    7: "OUT",
-    8: "INP",
-    9: "AMP",
-    10: "ALT",
-    11: "AEQ",
-    12: "AAL",
-}
-
 op_names = {
-    0b010: type_1_op_names,
-    0b011: type_1_op_names,
-    0b100: type_2_op_names,
-    0b101: type_2_op_names,
+    0b010: ops.type_1_op_names,
+    0b011: ops.type_1_op_names,
+    0b100: ops.type_2_op_names,
+    0b101: ops.type_2_op_names,
 }
+
+def disassemble_hex(hex_str):
+    bin_str = hex_parser.parse_hex_str(hex_str)
+    instruction = disassemble_instruction(BitStream(bin_str))
+    if instruction:
+        print(instruction.human())
 
 def disassemble_instruction(stream, strict=False):
+    if stream.is_empty(): return
+
     type_code, = stream.read_int(3)
     # print("type code", bin(type_code))
 
@@ -98,9 +77,8 @@ def disassemble_instruction(stream, strict=False):
         skip, = stream.read_int(3)
         assert(skip == 0)
 
-        source, = stream.read_str(28)
-        source_word = Word.from_int(int(source, 2))
-        source_out = source_word.hex_str(padded=False)
+        source_word = Word(*stream.read_bytes(4))
+        source_out = source_word.hex_str()
 
         return instruction.type1_constant_factory(
             op_name, Register(dest), source_word
@@ -117,9 +95,8 @@ def disassemble_instruction(stream, strict=False):
         )
 
     elif type_code == 0b101:
-        value, = stream.read_str(28)
-        value_word = Word.from_int(int(value, 2))
-        value_out = value_word.hex_str(padded=False)
+        value_word = Word(*stream.read_bytes(4))
+        value_out = value_word.hex_str()
 
         return instruction.type2_constant_factory(
             op_name, value_word
@@ -142,4 +119,6 @@ def disassemble_instruction(stream, strict=False):
             return
 
 if __name__ == "__main__":
-    disassemble(sys.argv[1])
+    # disassemble(sys.argv[1])
+    disassemble_hex("0x4808")
+    disassemble_hex("0x4840")

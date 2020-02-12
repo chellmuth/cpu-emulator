@@ -47,8 +47,22 @@ class Word:
         self.byte3 = byte3
         self.byte4 = byte4
 
+    def flip(self):
+        return Word(self.byte4, self.byte3, self.byte2, self.byte1)
+
     def low_byte(self):
         return self.byte1
+
+    def high_byte(self):
+        return self.byte4
+
+    def update_low_byte(self, byte):
+        return Word(
+            byte,
+            self.byte2,
+            self.byte3,
+            self.byte4
+        )
 
     def __hash__(self):
         return hash((
@@ -90,15 +104,18 @@ class Word:
             self.byte4 == other.byte4
 
     def hex_str(self, padded=True):
-        hex_str = util.pad(self.byte4.hex_str(), 2) \
-            + util.pad(self.byte3.hex_str(), 2) \
-            + util.pad(self.byte2.hex_str(), 2) \
-            + util.pad(self.byte1.hex_str(), 2)
+        hex_str = "".join([
+            byte.hex_str(padded=padded)
+            for byte in [
+                self.byte1, self.byte2, self.byte3, self.byte4
+            ]
+        ])
 
         if padded:
             return "0x" + hex_str
         else:
-            return "0x" + util.unpad_hex(hex_str)
+            raise ValueError
+            # return "0x" + util.unpad_hex(hex_str)
 
     def increment(self, amount):
         new_word = Word.from_int(self.int_value() + amount)
@@ -138,13 +155,13 @@ class Byte:
 
     def bin_str(self, padded=False):
         if padded:
-            return util.pad(bin(self.int_value)[2:], 7)
+            return util.pad_left(bin(self.int_value)[2:], 7)
 
         return bin(self.int_value)[2:]
 
     def hex_str(self, padded=False):
         if padded:
-            return util.pad(hex(self.int_value)[2:], 2)
+            return util.pad_left(hex(self.int_value)[2:], 2)
 
         return hex(self.int_value)[2:]
 

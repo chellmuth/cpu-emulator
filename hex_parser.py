@@ -10,9 +10,9 @@ def _split_bytes(hex_str):
     ]
 
 def _int_to_padded_bin_str(int_value):
-    return util.pad(bin(int_value)[2:], 7)
+    return util.pad_left(bin(int_value)[2:], 7)
 
-def parse_hex_str(hex_str, endian="big"):
+def parse_hex_str(hex_str):
     assert(hex_str.startswith("0x"))
 
     int_values = []
@@ -22,16 +22,12 @@ def parse_hex_str(hex_str, endian="big"):
         int_value = int(byte_str, 16)
 
         if int_value & 0b10000000:
+            breakpoint()
             raise ValueError
 
         int_values.append(int_value)
 
-    if endian == "big":
-        reversed_values = int_values
-    else:
-        reversed_values = int_values[::-1]
-
     return "".join(
         _int_to_padded_bin_str(i)
-        for i in reversed_values
+        for i in int_values
     )

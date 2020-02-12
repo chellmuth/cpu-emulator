@@ -43,7 +43,7 @@ class CallAbsoluteRegisterInstruction(instruction_base.Type2RegisterInstruction)
 
     def run(self, machine):
         return_pointer = machine.registers[Register.pc].incremented(self.size)
-        updated_pc = self.value_register
+        updated_pc = self.value_register.incremented(13)
 
         return MachineUpdate(
             memory={
@@ -61,7 +61,7 @@ class CallAbsoluteConstantInstruction(instruction_base.Type2ConstantInstruction)
 
     def run(self, machine):
         return_pointer = machine.registers[Register.pc].incremented(self.size)
-        updated_pc = self.value_word
+        updated_pc = self.value_word.incremented(13) # todo: spec error
 
         return MachineUpdate(
             memory={

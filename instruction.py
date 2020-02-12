@@ -5,6 +5,8 @@ import ops.bitwise_not
 import ops.bitwise_or
 import ops.bitwise_xor
 import ops.call
+import ops.compare
+import ops.input_op
 import ops.jump
 import ops.load
 import ops.out
@@ -19,6 +21,7 @@ def type1_register_factory(op_name, source_register, dest_register):
         "ADD": ops.add.AddRegisterInstruction,
         "SUB": ops.subtract.SubtractRegisterInstruction,
         "TST": ops.test.TestRegisterInstruction,
+        "CMP": ops.compare.CompareRegisterInstruction,
         "AND": ops.bitwise_and.BitwiseAndRegisterInstruction,
         "ORR": ops.bitwise_or.BitwiseOrRegisterInstruction,
         "XOR": ops.bitwise_xor.BitwiseXorRegisterInstruction,
@@ -41,6 +44,7 @@ def type1_constant_factory(op_name, dest_register, source_word):
         "ADD": ops.add.AddConstantInstruction,
         "SUB": ops.subtract.SubtractConstantInstruction,
         "TST": ops.test.TestConstantInstruction,
+        "CMP": ops.compare.CompareConstantInstruction,
         "AND": ops.bitwise_and.BitwiseAndConstantInstruction,
         "ORR": ops.bitwise_or.BitwiseOrConstantInstruction,
         "XOR": ops.bitwise_xor.BitwiseXorConstantInstruction,
@@ -67,6 +71,7 @@ def type2_register_factory(op_name, value_register):
         "PSH": ops.push.PushRegisterInstruction,
         "POP": ops.pop.PopRegisterInstruction,
         "OUT": ops.out.PrintRegisterInstruction,
+        "INP": ops.input_op.InputRegisterInstruction,
         "AMP": ops.jump.JumpAbsoluteRegisterInstruction,
         "ALT": ops.jump.JumpAbsoluteLessThanRegisterInstruction,
         "ALT": ops.jump.JumpAbsoluteEqualRegisterInstruction,
@@ -87,6 +92,7 @@ def type2_constant_factory(op_name, value_word):
         "CAL": ops.call.CallConstantInstruction,
         "PSH": ops.push.PushConstantInstruction,
         "OUT": ops.out.PrintConstantInstruction,
+        "INP": ops.input_op.InputConstantInstruction,
         "AMP": ops.jump.JumpAbsoluteConstantInstruction,
         "ALT": ops.jump.JumpAbsoluteLessThanConstantInstruction,
         "AEQ": ops.jump.JumpAbsoluteEqualConstantInstruction,
