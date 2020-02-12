@@ -45,6 +45,7 @@ class Segment:
     name: str
     offset: Word
     base: Word
+    size: Word
     permissions: Byte
     _type: Byte
 
@@ -191,6 +192,7 @@ def read_segment(stream):
     name = read_text(stream)
     offset = read_word(stream)
     base = read_word(stream)
+    size = read_word(stream)
 
     # print("name:", name)
     # print("offset:", offset)
@@ -206,6 +208,7 @@ def read_segment(stream):
         name,
         offset,
         base,
+        size,
         permissions,
         segment_type
     )

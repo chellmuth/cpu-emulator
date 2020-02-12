@@ -3,7 +3,7 @@ from byte_stream import BitStream
 from core import Byte, Flag, MachineUpdate, Register, Word
 
 class Memory:
-    size = 500
+    size = 1000
     def __init__(self):
         assert self.size % 4 == 0
 
@@ -23,7 +23,10 @@ class Memory:
         self.memory[address + 3] = word.byte4
 
     def read_byte(self, address):
-        return self.memory[address]
+        try:
+            return self.memory[address]
+        except IndexError:
+            return Byte(0)
 
     def read_word(self, address):
         return Word(
@@ -41,7 +44,7 @@ class Machine:
             for _ in Register
         ]
         self.registers[Register.sp] = Word.from_int(self.memory.size - 1 - 4)
-        self.stdout = [ Byte(72), Byte(101) ]
+        self.stdout = []
         self.flags = set()
 
     def __repr__(self):

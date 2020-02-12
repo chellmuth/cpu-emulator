@@ -44,6 +44,7 @@ class CallAbsoluteRegisterInstruction(instruction_base.Type2RegisterInstruction)
     def run(self, machine):
         return_pointer = machine.registers[Register.pc].incremented(self.size)
         updated_pc = self.value_register
+        breakpoint()
 
         return MachineUpdate(
             memory={

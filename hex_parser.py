@@ -9,10 +9,10 @@ def _split_bytes(hex_str):
         for i in range(len(hex_str) // 2)
     ]
 
-def _int_to_padded_bin_str(int_value):
-    return util.pad(bin(int_value)[2:], 7)
+def _int_to_padded_bin_str(int_value, endian="little"):
+    return util.pad(bin(int_value)[2:], 7, endian)
 
-def parse_hex_str(hex_str, endian="big"):
+def parse_hex_str(hex_str, endian="little"):
     assert(hex_str.startswith("0x"))
 
     int_values = []
@@ -32,6 +32,6 @@ def parse_hex_str(hex_str, endian="big"):
         reversed_values = int_values[::-1]
 
     return "".join(
-        _int_to_padded_bin_str(i)
+        _int_to_padded_bin_str(i, endian="little")
         for i in reversed_values
     )

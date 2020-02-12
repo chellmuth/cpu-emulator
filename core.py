@@ -47,8 +47,14 @@ class Word:
         self.byte3 = byte3
         self.byte4 = byte4
 
+    def flip(self):
+        return Word(self.byte4, self.byte3, self.byte2, self.byte1)
+
     def low_byte(self):
         return self.byte1
+
+    def high_byte(self):
+        return self.byte4
 
     def __hash__(self):
         return hash((
@@ -90,10 +96,10 @@ class Word:
             self.byte4 == other.byte4
 
     def hex_str(self, padded=True):
-        hex_str = util.pad(self.byte4.hex_str(), 2) \
-            + util.pad(self.byte3.hex_str(), 2) \
+        hex_str = util.pad(self.byte1.hex_str(), 2) \
             + util.pad(self.byte2.hex_str(), 2) \
-            + util.pad(self.byte1.hex_str(), 2)
+            + util.pad(self.byte3.hex_str(), 2) \
+            + util.pad(self.byte4.hex_str(), 2)
 
         if padded:
             return "0x" + hex_str

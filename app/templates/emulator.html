@@ -3,13 +3,6 @@
     <title>By7e Emulator</title>
 </head>
 <body>
-{% include "_instruction.html" %}
-{% include "_registers.html" %}
-{% include "_flags.html" %}
-{% include "_disassembled.html" %}
-{% include "_stack.html" %}
-{% include "_memory.html" %}
-{% include "_stdout.html" %}
 {% if "step" in available_actions %}
 <div>
   <form action="/" method="POST">
@@ -17,6 +10,13 @@
   </form>
 </div>
 {% endif %}
+{% include "_stdout.html" %}
+{% include "_instruction.html" %}
+{% include "_registers.html" %}
+{% include "_flags.html" %}
+{% include "_disassembled.html" %}
+{% include "_stack.html" %}
+{% include "_memory.html" %}
 <div>
   <br /><br /><br /><br /><br /><br />
   <form action="/reset" method="POST">

@@ -1,5 +1,8 @@
-def pad(bits_str, length):
-    return ("0" * length + bits_str)[-length:]
+def pad(bits_str, length, endian="little"):
+    if endian == "big":
+        return ("0" * length + bits_str)[-length:]
+    else:
+        return (bits_str + "0" * length)[:length]
 
 def fill_to_real_byte(bits_str):
     count = 8 - (len(bits_str) % 8)

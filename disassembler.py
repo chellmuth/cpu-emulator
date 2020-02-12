@@ -54,6 +54,8 @@ op_names = {
 }
 
 def disassemble_instruction(stream, strict=False):
+    if stream.is_empty(): return
+
     type_code, = stream.read_int(3)
     # print("type code", bin(type_code))
 
