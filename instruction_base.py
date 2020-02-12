@@ -79,6 +79,6 @@ class Type2ConstantInstruction(Instruction):
         self.value_word = value_word
 
     def human(self):
-        value_out = self.value_word.hex_str(padded=False)
+        value_out = self.value_word.hex_str()
 
         return f"{self.op_name} {value_out}"

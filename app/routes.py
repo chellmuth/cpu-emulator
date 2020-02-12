@@ -61,7 +61,7 @@ def reset_app():
 
     machine = Machine()
 
-    orc = orc_parser.parse("chall1.exe")
+    orc = orc_parser.parse("chall2.exe")
     segment = orc.segments[1]
 
     base = segment.base.int_value()
