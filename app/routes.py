@@ -113,7 +113,7 @@ def render_emulator():
     if instruction:
         available_actions.add("step")
 
-    address = 0
+    address = machine.registers[Register.pc].int_value() # todo: look backwards
     instruction_views = []
     for instruction in machine.glob_instructions():
         instruction_views.append(
