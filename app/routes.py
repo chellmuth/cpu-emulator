@@ -119,9 +119,8 @@ def render_emulator():
     if instruction:
         available_actions.add("step")
 
-    address = machine.registers[Register.pc].int_value() # todo: look backwards
     instruction_views = []
-    for instruction in machine.glob_instructions():
+    for address, instruction in machine.glob_instructions():
         instruction_views.append(
             DisassembledInstructionView(
                 address == machine.registers[Register.pc].int_value(),
@@ -131,7 +130,6 @@ def render_emulator():
                 instruction.human()
             )
         )
-        address += instruction.size
 
     disassembled_view = DisassembledView(instruction_views)
 

@@ -119,8 +119,9 @@ def run(filename, break_, input_):
                     _, address_hex = command.split(" ")
                     address = hex_parser.int_from_by7e_hex(address_hex)
 
-                    for fake_instruction in machine.glob_instructions(address):
-                        print(fake_instruction.human())
+                    for fake_address, fake_instruction in machine.glob_instructions(address):
+                        formatted_address = Word.from_int(fake_address).hex_str(human=True)
+                        print(formatted_address, fake_instruction.human())
 
                 elif command == "web":
                     import app

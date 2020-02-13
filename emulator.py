@@ -99,8 +99,8 @@ class Machine:
             stream = BitStream(bin_str)
             instruction = disassembler.disassemble_instruction(stream, strict=False)
             if instruction:
+                instructions.append((base_address, instruction))
                 base_address += instruction.size
-                instructions.append(instruction)
             else:
                 failed = True
 
