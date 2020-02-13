@@ -50,7 +50,6 @@ def run(filename, break_, input_):
                 if command == "debug":
                     breakpoint()
                 elif command == "continue":
-                    machine.run(instruction)
                     break
                 elif command == "registers":
                     for register in Register:
@@ -68,8 +67,8 @@ def run(filename, break_, input_):
                     _, address_hex = command.split(" ")
                     address = hex_parser.int_from_by7e_hex(address_hex)
 
-                    for instruction in machine.glob_instructions(address):
-                        print(instruction.human())
+                    for fake_instruction in machine.glob_instructions(address):
+                        print(fake_instruction.human())
 
                 elif command == "web":
                     import app
@@ -77,9 +76,6 @@ def run(filename, break_, input_):
                     app.app.run()
 
                 command = input("> ")
-
-            instruction = machine.next_instruction()
-            continue
 
         machine.run(instruction)
         instruction = machine.next_instruction()
