@@ -10,6 +10,35 @@ import emulator
 import orc_parser
 from core import Byte, Register, Word
 
+commands = [
+    "continue",
+    "debug",
+    "disassemble",
+    "memory",
+    "print",
+    "registers",
+    "step",
+    "web",
+]
+
+def completer(text, state):
+    tokens = text.split(" ")
+    if len(tokens) > 1:
+        return None
+
+    possibilities = []
+    for command in commands:
+        if command.startswith(text):
+            possibilities.append(command)
+
+    if state < len(possibilities):
+        return possibilities[state] + " "
+
+    return None
+
+readline.parse_and_bind("tab: complete")
+readline.set_completer(completer)
+
 class HexIntParamType(click.ParamType):
     name = "hexint"
 
@@ -50,7 +79,7 @@ def run(filename, break_, input_):
         print(machine.registers[Register.pc].hex_str(human=True), instruction.human())
 
         if machine.registers[Register.pc].int_value() == break_:
-            command = input("> ")
+            command = input("> ").strip()
             while command:
                 if command == "debug":
                     breakpoint()
@@ -101,7 +130,9 @@ def run(filename, break_, input_):
                 elif command == "help":
                     print(help_str)
 
-                command = input("> ")
+                else:
+                    print("Unknown command:", command)
+                command = input("> ").strip()
 
         machine.run(instruction)
         instruction = machine.next_instruction()
