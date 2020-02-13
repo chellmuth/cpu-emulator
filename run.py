@@ -55,6 +55,16 @@ def run(filename, break_, input_):
                 elif command == "registers":
                     for register in Register:
                         print(f"{register.name}: {machine.registers[register].hex_str()}")
+                elif command.startswith("memory"):
+                    _, address_hex = command.split(" ")
+                    address = hex_parser.int_from_by7e_hex(address_hex)
+
+                    for section in range(4):
+                        section_address = address + section * 4
+                        word = machine.memory.read_word(section_address)
+                        formatted_address = Word.from_int(section_address).hex_str(human=True)
+                        print(formatted_address, word.hex_str())
+
                 elif command == "web":
                     import app
                     app.routes.override_app(machine)
