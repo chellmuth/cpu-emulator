@@ -120,7 +120,7 @@ def render_emulator():
         instruction_views.append(
             DisassembledInstructionView(
                 address == machine.registers[Register.pc].int_value(),
-                Word.from_int(address).hex_str(padded=True),
+                Word.from_int(address).hex_str(human=True),
                 instruction.debug_str(),
                 instruction_helper.bytes_str(instruction),
                 instruction.human()
@@ -131,16 +131,16 @@ def render_emulator():
     disassembled_view = DisassembledView(instruction_views)
 
     registers_view = [
-        RegisterView(register.name, machine.registers[register.value].hex_str() )
+        RegisterView(register.name, machine.registers[register.value].hex_str())
         for register in Register
     ]
 
     memory = machine.memory
 
-    columns = 1
+    columns = 4
     memory_view = MemoryView(columns, [
         MemoryRowView(
-            Word.from_int(row * columns * 4).hex_str(),
+            Word.from_int(row * columns * 4).hex_str(human=True),
             [
                 memory.read_word((row * columns + column) * 4).hex_str()
                 for column in range(columns)
@@ -154,9 +154,9 @@ def render_emulator():
     stack_view = StackView(1, [
         StackRowView(
             row == 0,
-            Word.from_int(stack_pointer + row * 4).hex_str(),
+            Word.from_int(stack_pointer + row * 4).hex_str(human=True),
             [
-                memory.read_word(stack_pointer + row * 4).hex_str()
+                memory.read_word(stack_pointer + row * 4).hex_str(human=True)
             ]
         )
         for row in range(((memory.size - 1) - stack_pointer) // 4)
