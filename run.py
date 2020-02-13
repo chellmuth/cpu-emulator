@@ -52,6 +52,9 @@ def run(filename, break_, input_):
                 elif command == "continue":
                     machine.run(instruction)
                     break
+                elif command == "registers":
+                    for register in Register:
+                        print(f"{register.name}: {machine.registers[register].hex_str()}")
                 elif command == "web":
                     import app
                     app.routes.override_app(machine)
