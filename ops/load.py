@@ -18,8 +18,11 @@ class LoadConstantInstruction(instruction_base.Type1ConstantInstruction):
         super().__init__("LOD", dest_register, source_word)
 
     def run(self, machine):
+        address = self.source_word.int_value()
+        loaded_word = machine.memory.read_word(address)
+
         return MachineUpdate(
             registers={
-                self.dest_register: self.source_word
+                self.dest_register: loaded_word
             }
         )
