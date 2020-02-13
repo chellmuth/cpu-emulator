@@ -24,7 +24,6 @@ hexint = HexIntParamType()
 @click.option("--break", "break_", type=hexint)
 @click.option("--input", "input_", type=hexint, multiple=True)
 def run(filename, break_, input_):
-    print(breakpoint)
     orc = orc_parser.parse(filename)
 
     machine = emulator.Machine()
@@ -43,9 +42,21 @@ def run(filename, break_, input_):
     instruction = machine.next_instruction()
     while instruction:
         if machine.registers[Register.pc].int_value() == break_:
-            breakpoint()
+            command = input("command: ")
+            while command:
+                if command == "debug":
+                    breakpoint()
+                elif command == "web":
+                    import app
+                    app.routes.override_app(machine)
+                    app.app.run()
 
-        print(machine.registers[Register.pc].hex_str(), instruction.human())
+                command = input("command: ")
+
+            instruction = machine.next_instruction()
+            continue
+
+        print(machine.registers[Register.pc].hex_str(human=True), instruction.human())
         machine.run(instruction)
         instruction = machine.next_instruction()
 

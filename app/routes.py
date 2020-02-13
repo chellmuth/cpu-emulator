@@ -74,6 +74,11 @@ def reset_app():
 
     machine.registers[Register.pc] = Word.from_int(base)
 
+def override_app(override_machine):
+    global machine
+
+    machine = override_machine
+
 reset_app()
 
 @app.route('/')
