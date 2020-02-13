@@ -64,6 +64,12 @@ def run(filename, break_, input_):
                         word = machine.memory.read_word(section_address)
                         formatted_address = Word.from_int(section_address).hex_str(human=True)
                         print(formatted_address, word.hex_str())
+                elif command.startswith("disassemble"):
+                    _, address_hex = command.split(" ")
+                    address = hex_parser.int_from_by7e_hex(address_hex)
+
+                    for instruction in machine.glob_instructions(address):
+                        print(instruction.human())
 
                 elif command == "web":
                     import app
