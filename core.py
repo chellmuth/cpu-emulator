@@ -103,19 +103,25 @@ class Word:
             self.byte3 == other.byte3 and \
             self.byte4 == other.byte4
 
-    def hex_str(self, padded=True):
+    def hex_str(self, padded=True, human=False):
+        byte_list = [
+            self.byte1, self.byte2, self.byte3, self.byte4
+        ]
+        if human:
+            byte_list = reversed(byte_list)
+
         hex_str = "".join([
             byte.hex_str(padded=padded)
-            for byte in [
-                self.byte1, self.byte2, self.byte3, self.byte4
-            ]
+            for byte in byte_list
         ])
+
+        if human:
+            hex_str = util.unpad_hex_left(hex_str)
 
         if padded:
             return "0x" + hex_str
         else:
             raise ValueError
-            # return "0x" + util.unpad_hex(hex_str)
 
     def increment(self, amount):
         new_word = Word.from_int(self.int_value() + amount)

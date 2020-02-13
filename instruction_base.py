@@ -49,7 +49,7 @@ class Type1ConstantInstruction(Instruction):
             + str(self.source_word.int_value())
 
     def human(self):
-        source_out = self.source_word.hex_str()
+        source_out = self.source_word.hex_str(human=True)
         dest_out = self.dest_register.name
 
         return f"{self.op_name} {dest_out}, {source_out}"
@@ -79,6 +79,6 @@ class Type2ConstantInstruction(Instruction):
         self.value_word = value_word
 
     def human(self):
-        value_out = self.value_word.hex_str()
+        value_out = self.value_word.hex_str(human=True)
 
         return f"{self.op_name} {value_out}"
