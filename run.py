@@ -1,5 +1,6 @@
 import click
 
+import hex_parser
 import emulator
 import orc_parser
 from core import Byte, Register, Word
@@ -10,7 +11,7 @@ class HexIntParamType(click.ParamType):
     def convert(self, value, param, ctx):
         try:
             if value[:2].lower() == "0x":
-                return int(value[2:], 16)
+                return hex_parser.int_from_by7e_hex(value)
             self.fail("Expected value to start with 0x")
         except TypeError:
             self.fail("Type error")
@@ -41,22 +42,26 @@ def run(filename, break_, input_):
 
     instruction = machine.next_instruction()
     while instruction:
+        print(machine.registers[Register.pc].hex_str(human=True), instruction.human())
+
         if machine.registers[Register.pc].int_value() == break_:
-            command = input("command: ")
+            command = input("> ")
             while command:
                 if command == "debug":
                     breakpoint()
+                elif command == "continue":
+                    machine.run(instruction)
+                    break
                 elif command == "web":
                     import app
                     app.routes.override_app(machine)
                     app.app.run()
 
-                command = input("command: ")
+                command = input("> ")
 
             instruction = machine.next_instruction()
             continue
 
-        print(machine.registers[Register.pc].hex_str(human=True), instruction.human())
         machine.run(instruction)
         instruction = machine.next_instruction()
 
