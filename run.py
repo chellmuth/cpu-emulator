@@ -56,6 +56,11 @@ def run(filename, break_, input_):
                     breakpoint()
                 elif command == "continue":
                     break
+                elif command == "step":
+                    machine.run(instruction)
+                    instruction = machine.next_instruction()
+                    if instruction:
+                        print(instruction.human())
                 elif command == "registers":
                     for register in Register:
                         print(f"{register.name}: {machine.registers[register].hex_str()}")
@@ -107,6 +112,7 @@ def run(filename, break_, input_):
 help_str = """
 debug
 continue
+step
 registers
 print {address | register}
 memory {address}
