@@ -45,6 +45,7 @@ class Machine:
         ]
         self.registers[Register.sp] = Word.from_int(self.memory.size - 1 - 4)
         self.stdout = []
+        self.stdin = []
         self.flags = set()
 
     def __repr__(self):

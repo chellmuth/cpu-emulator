@@ -22,11 +22,14 @@ hexint = HexIntParamType()
 @click.command()
 @click.argument("filename")
 @click.option("--break", "break_", type=hexint)
-def run(filename, break_):
+@click.option("--input", "input_", type=hexint, multiple=True)
+def run(filename, break_, input_):
     print(breakpoint)
     orc = orc_parser.parse(filename)
 
     machine = emulator.Machine()
+    if input_:
+        machine.stdin = list(input_)
 
     for segment in orc.segments:
         for i in range(segment.size.int_value()):
@@ -52,4 +55,5 @@ def run(filename, break_):
 
 
 if __name__ == "__main__":
+    # python run.py chall2.exe --input 0x61 --input 0x62 --input 0x64 --input 0x68 --input 0x65 --input 0x71 --input 0x26 --input 0x29 --input 0x3d --input 0x45 --input 0x7c --input 0x79 --input 0x79 --input 0x2a --input 0x38 --input 0x67 --input 0x25 --input 0x20 --input 0x1 --input 0x7f --input 0x5 --input 0x30 --input 0x38 --input 0x4d --input 0x60 --input 0x2b --input 0x12 --input 0x5b
     run()

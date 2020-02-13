@@ -6,8 +6,12 @@ class InputRegisterInstruction(instruction_base.Type2RegisterInstruction):
         super().__init__("INP", value_register)
 
     def run(self, machine):
-        user_input = input()
-        user_int = ord(user_input[0])
+        if machine.stdin:
+            user_int = machine.stdin.pop(0)
+        else:
+            user_input = input()
+            user_int = ord(user_input[0])
+
         user_byte = Byte(user_int)
 
         return MachineUpdate(
