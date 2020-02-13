@@ -93,6 +93,9 @@ def run(filename, break_, input_):
                     app.routes.override_app(machine)
                     app.app.run()
 
+                elif command == "help":
+                    print(help_str)
+
                 command = input("> ")
 
         machine.run(instruction)
@@ -101,6 +104,15 @@ def run(filename, break_, input_):
     # print("".join([ str(char) for char in machine.stdout ]))
     print("".join([ chr(char.int_value) for char in machine.stdout ]))
 
+help_str = """
+debug
+continue
+registers
+print {address | register}
+memory {address}
+disassemble {address}
+web
+"""
 
 
 if __name__ == "__main__":
