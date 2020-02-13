@@ -10,12 +10,9 @@ class InputRegisterInstruction(instruction_base.Type2RegisterInstruction):
         user_int = ord(user_input[0])
         user_byte = Byte(user_int)
 
-        current_word = machine.registers[self.value_register]
-        updated_word = current_word.update_low_byte(user_byte)
-
         return MachineUpdate(
-            registers={
-                self.value_register: updated_word
+            memory={
+                machine.registers[self.value_register]: user_byte
             },
         )
 
