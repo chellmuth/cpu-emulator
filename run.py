@@ -22,7 +22,7 @@ commands = [
 ]
 
 def completer(text, state):
-    tokens = text.split(" ")
+    tokens = readline.get_line_buffer().split()
     if len(tokens) > 1:
         return None
 
