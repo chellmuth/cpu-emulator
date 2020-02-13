@@ -1,3 +1,8 @@
+try:
+    import readline
+except:
+    pass
+
 import click
 
 import hex_parser
