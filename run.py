@@ -54,6 +54,19 @@ def run(filename, break_, input_):
                 elif command == "registers":
                     for register in Register:
                         print(f"{register.name}: {machine.registers[register].hex_str()}")
+                elif command.startswith("print"):
+                    _, variable = command.split(" ")
+
+                    if variable.startswith("0x"):
+                        address_hex = variable
+                        address = hex_parser.int_from_by7e_hex(address_hex)
+                        word = machine.memory.read_word(address)
+                    else:
+                        register_name = variable
+                        register = Register[register_name]
+                        word = machine.registers[register]
+
+                    print(word)
                 elif command.startswith("memory"):
                     _, address_hex = command.split(" ")
                     address = hex_parser.int_from_by7e_hex(address_hex)

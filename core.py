@@ -142,7 +142,9 @@ class Word:
         )
 
     def __repr__(self):
-        return "[word=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) + " (" + str(self.int_value()) + ")]"
+        return "[bin=" + "-".join([str(b) for b in [self.byte1, self.byte2, self.byte3, self.byte4]]) \
+            + " int=" + str(self.int_value()) \
+            + " hex=" + self.hex_str() + "]"
 
 class Byte:
     size = 1
